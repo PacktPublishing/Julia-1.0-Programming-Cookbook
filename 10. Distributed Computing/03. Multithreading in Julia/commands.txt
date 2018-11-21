@@ -1,0 +1,66 @@
+# on Windows
+C:\ set JULIA_NUM_THREADS=4
+
+# on Linux
+$ export JULIA_NUM_THREADS=4
+
+
+$ julia
+
+julia> Threads.nthreads()
+
+
+using DataFrames, BenchmarkTools, Random, Statistics
+
+Random.seed!(0);
+N = 100_000;
+const data = DataFrame(rowtype = rand(1:12, N));
+data.x1 = data.rowtype .* randn(N);
+
+julia> head(data, 5)
+
+function stats(df)
+    m = MersenneTwister()
+    median_val = 0
+    for i in 1:100
+        median_val += median(rand(m, df.x1, nrow(df)))
+    end
+    return (rowtype=df.rowtype[1], n=nrow(df),
+            tid=Threads.threadid(), median=median_val / 100)
+end
+
+julia> @time by(data, :rowtype, stats)
+
+julia> @time by(data, :rowtype, stats);
+
+function threaded_by(df::DataFrame, groupcol::Symbol, f::Function)
+    groups = groupby(df, groupcol)
+    f(view(groups[1], 1:2, :)); #needed for precompilation!
+    res = Vector{NamedTuple}(undef, length(groups))
+    Threads.@threads for g in 1:length(groups)
+        rv = f(groups[g])
+        res[g] = rv
+    end
+    DataFrame(rowtype=getfield.(res, groupcol), x1=res)
+end
+
+julia> @time threaded_by(data, :rowtype, stats)
+
+julia> @time threaded_by(data, :rowtype, stats);
+
+
+julia> Threads.nthreads()
+julia> total = 0;
+julia> Threads.@threads for i in 1:1_000_000
+           global total = total + 1
+       end
+julia> total
+
+julia> total2 = 0;
+julia> s = Threads.SpinLock()
+julia> Threads.@threads for i in 1:1_000_000
+           Threads.lock(s)
+           global total2 = total2 + 1
+           Threads.unlock(s)
+       end
+julia> total2

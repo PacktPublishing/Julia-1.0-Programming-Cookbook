@@ -1,0 +1,63 @@
+$ julia
+
+julia> using Distributed
+julia> addprocs(1) 
+
+julia> Distributed.myid()
+julia> workers()
+
+julia> res = @spawnat 2 myid()
+julia> fetch(res)
+
+remote_f = function(s::Int=3)
+    println("Worker $(myid()) will sleep for $s seconds")
+    sleep(s)
+    val=rand(1:1000)
+    println("Completed worker $(myid()) - return $val")
+    return val
+end
+
+julia> @fetchfrom 2 remote_f(4)
+
+function run_timeout(timeout::Int, f::Function, params...)
+    wid = addprocs(1)[1]
+    result = RemoteChannel(()->Channel{Tuple}(1));
+    @spawnat wid put!(result, (f(params...), myid()))
+    res = nothing    
+    time_elapsed = 0.0
+    while time_elapsed < timeout && !isready(result)
+        sleep(0.25)
+        time_elapsed += 0.25
+    end
+    if !isready(result)
+        println("Not completed! Computation at $wid will be 
+        terminated!")        
+    else
+        res = take!(result)
+    end
+    rmprocs(wid);
+    return res
+end
+
+julia> run_timeout(3, remote_f, 2)
+
+julia> run_timeout(3, remote_f, 10)
+
+julia> workers()
+
+
+$ julia -p 2
+
+julia> using Distributed
+julia> @everywhere function myF2(); println("myF2 ", myid()); end;
+julia> @spawnat workers()[end] myF2();
+
+
+julia> hello() = println("hello");
+julia> @fetchfrom 2 hello()
+julia> f_lambda = () -> hello();
+julia> f_lambda()
+julia> @fetchfrom 2 f_lambda()
+
+julia> @everywhere hello() = println("hello")
+julia> @fetchfrom 2 f_lambda()

@@ -1,0 +1,4 @@
+User ubuntu
+PubKeyAuthentication yes
+StrictHostKeyChecking no
+IdentityFile ~/.ssh/cluster

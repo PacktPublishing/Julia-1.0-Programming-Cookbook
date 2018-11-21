@@ -1,0 +1,64 @@
+$ ssh-keygen -P "" -t rsa -f ~/.ssh/cluster
+
+$ cat ~/.ssh/cluster.pub >> ~/.ssh/authorized_keys
+
+$ ssh ubuntu@localhost
+
+$ julia --machine-file machinefile.txt
+
+julia> using Distributed
+
+julia> nworkers()
+
+julia> ]
+(v1.0) pkg> add Distributions
+(v1.0) pkg> add DataFrames
+
+using Distributed
+
+@everywhere using Distributed, Distributions, DataFrames, Random
+
+@everywhere function sim_inventory(reorder_q::Int64,
+                                   reorder_point::Int64;
+    days = 100,
+    sd = Normal(20,20^0.5), #daily sales distribution
+    wh = 0.1,  #warehousing costs
+    p = 4.0,  #unit profit (when sold)
+    d_prob = 0.50, #probability of delivery at given day
+    k = 60.0, # fixed delivery cost
+    rng = MersenneTwister(0))
+    profit = 0.0 # Cumulated profit
+    stock = reorder_q
+    for  day in 1:days
+        if stock < reorder_point && rand(rng)< d_prob # an order arrives
+            profit -= k # we pay for the delivery
+            stock += reorder_q
+        end
+        sale = max(0, min(Int(round(rand(rng, sd))), stock))
+        stock -= sale # decrease stock
+        profit += p*sale - wh*stock # gain profit
+    end
+    return profit / days
+end
+
+julia> sweep = vec(collect(Base.product(10:10:250,10:10:250,20:5:60)))
+julia> Random.seed!(0);
+julia> Random.shuffle!(sweep);
+
+const rngs = Dict(i=>MersenneTwister(i) for i in workers());
+
+res = @distributed (append!) for s in sweep
+    rng = deepcopy(rngs[myid()])
+    profit = 0.0
+    for sim in 1:10000
+        profit += sim_inventory(s[1],s[2],days=s[3], rng=rng)
+    end
+    DataFrame(worker=myid(), reorder_q=s[1], reorder_point=s[2],
+              days=s[3], profit=profit/10000)
+end
+
+julia> res
+
+julia> sort!(vcat(view.(sort!.(DataFrame.(groupby(res,:days)),
+                               :profit, rev=true), 1)...),
+             :days)
