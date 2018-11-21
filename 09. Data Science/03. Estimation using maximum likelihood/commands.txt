@@ -1,0 +1,6 @@
+julia> include("opt.jl")
+julia> using Random
+julia> Random.seed!(1);
+julia> x = randn(100);
+julia> testoptim(x)
+julia> mean(x), std(x)*sqrt(99/100)

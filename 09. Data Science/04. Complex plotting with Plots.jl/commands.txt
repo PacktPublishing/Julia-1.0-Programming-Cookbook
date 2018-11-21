@@ -1,0 +1,53 @@
+julia> ]
+(v1.0) pkg> add DataFrames
+(v1.0) pkg> add Plots
+(v1.0) pkg> add Distributions
+(v1.0) pkg> add StatPlots
+(v1.0) pkg> add CSV
+
+
+using Random
+using DataFrames
+using Plots
+using Distributions
+using StatPlots
+
+Random.seed!(0); 
+df = DataFrame(x1=randn(1000),x2=randn(1000));
+ρ = 0.8
+df.x3 = ρ*df.x1 + √(1-ρ*ρ)*df.x2;
+
+julia> gr()
+
+p = histogram(df.x1,nbins=25,labels="x1");
+histogram!(p,df.x3,fillalpha=0.5,bar_width=0.3,labels="x3")
+
+p = histogram(df.x3,normed=true)
+plot!(p,Normal(0,1),width=4)
+
+plot(scatter(df.x1,df.x3,legend=false),histogram2d(df.x1,df.x3),layout=Plots.GridLayout(1, 2),xlabel="x1",ylabel="x3" )
+
+corrplot(convert(Array, df), bins=25,labels=["x1","x2","x3"])
+
+
+using CSV
+iris = CSV.read(joinpath(dirname(pathof(DataFrames)),"..","test/data/iris.csv"));
+
+font_h6 = Plots.font("Helvetica", 6)
+plts = Plots.Plot[]
+for i in 1:4, j in 1:4
+    if i == j
+        push!(plts,histogram(iris[i],group=iris[:Species],
+            xlabel=names(iris)[j],ylabel="count",
+            legend=false,fillalpha=0.5,
+            guidefont=font_h6,tickfont=font_h6))
+    else
+        push!(plts,scatter(iris[j],iris[i],
+            xlabel=names(iris)[j],ylabel=names(iris)[i],
+            group=iris[:Species],legend=(i==4&&j==1),
+            guidefont=font_h6,tickfont=font_h6,legendfont=font_h6,
+            background_color_legend=RGBA(255,255,255,0.8),
+            foreground_color_legend=nothing))
+    end    
+end
+p = plot(plts...,layout=Plots.GridLayout(4, 4))

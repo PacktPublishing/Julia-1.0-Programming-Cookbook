@@ -1,0 +1,67 @@
+julia> ]
+(v1.0) pkg> add Conda
+(v1.0) pkg> add CSV
+(v1.0) pkg> add HTTP
+(v1.0) pkg> add DataFrames
+(v1.0) pkg> add ScikitLearn
+(v1.0) pkg> add PyCall
+
+using Conda
+Conda.runconda(`install mlxtend -c conda-forge -y`)
+
+
+using CSV, HTTP, DataFrames, ScikitLearn, Random, PyCall, Statistics
+
+dat = HTTP.get("https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data")
+buf = IOBuffer(dat.body[1:end-1]) #cut-off trailing new line character
+iris = CSV.read(buf;header=false,allowmissing=:none)
+names!(iris,Symbol.(["SepalLength","SepalWidth","PetalLength","PetalWidth","Class"]))
+
+ua = unique(iris[:Class]) 
+iris[:Class]=[findfirst(==(x), ua) - 1 for x in iris[:Class]]
+y = iris[:Class]
+X = Matrix(iris[1:4])
+
+using ScikitLearn.CrossValidation: train_test_split
+Random.seed!(0)
+X_train, X_test, y_train, y_test =
+   train_test_split(X, y,test_size=0.3,random_state=0,stratify=y);
+   
+@sk_import preprocessing : StandardScaler
+stdsc = StandardScaler();
+X_train_std = stdsc[:fit_transform](X_train)
+X_test_std = stdsc[:transform](X_test)
+
+@sk_import linear_model: LogisticRegression
+logreg = LogisticRegression(fit_intercept=true)
+fit!(logreg,X_train_std, y_train)
+y_pred = predict(logreg,X_test_std)
+
+julia> @sk_import metrics : (accuracy_score,confusion_matrix);
+julia> accuracy_score(y_test,y_pred)
+julia> confusion_matrix(y_test,y_pred)
+
+@sk_import ensemble : RandomForestClassifier
+forest = RandomForestClassifier(n_estimators=100,  random_state=0)
+fit!(forest,X_train, y_train)
+y_pred = predict(forest,X_test)
+importances = forest[:feature_importances_]
+indices = sortperm(importances,rev=true)
+
+julia> DataFrame(Name=names(iris)[indices], Importance=importances[indices])
+
+julia> confusion_matrix(y_test,y_pred)
+
+using PyPlot  #important!
+@pyimport mlxtend.plotting as mlp
+fill_vals=Dict{Int,Float64}()
+fill_rngs=Dict{Int,Float64}()
+for ind in indices[3:end]
+    fill_vals[ind-1] = mean(iris[names(iris)[ind]])
+    fill_rngs[ind-1] = std(iris[names(iris)[ind]])
+end
+mlp.plot_decision_regions(X,y,forest,X_highlight=X_test, 
+    feature_index=(indices[1:2].-1),
+    filler_feature_values=fill_vals,filler_feature_ranges=fill_rngs)
+xlabel(names(iris)[indices[1]])
+ylabel(names(iris)[indices[2]])

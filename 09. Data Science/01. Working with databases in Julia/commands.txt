@@ -1,0 +1,109 @@
+julia> ]
+(v1.0) pkg> add MySQL
+
+
+julia> ENV["PATH"]="C:\\Program Files\\PostgreSQL\\10\\lib;"*ENV["PATH"]
+julia> ]
+(v1.0) pkg> add LibPQ
+
+
+$ java -version
+
+julia> ]
+(v1.0) pkg> add JDBC
+
+
+julia> using DataFrames
+julia> using MySQL
+julia> conn = MySQL.connect("127.0.0.1", "root", "type_password_here",db="sys")
+
+julia> MySQL.execute!(conn, "CREATE TABLE mytable (col1 INT AUTO_INCREMENT PRIMARY KEY, col2 VARCHAR(50), col3 INT)")
+
+julia> st = MySQL.Stmt(conn, "INSERT INTO mytable(col2, col3) VALUES (?,?)");
+julia> MySQL.execute!(st, ["testdata",7]);
+julia> MySQL.execute!(st, ["testdata2",8]);
+
+julia> df = MySQL.query(conn, "SELECT * FROM mytable") |> DataFrame
+
+julia> res = MySQL.query(conn, "SELECT * FROM mytable")
+
+julia> MySQL.disconnect(conn)
+
+
+julia> using DataFrames
+julia> using LibPQ
+julia> conn = LibPQ.Connection("host=localhost dbname=postgres user=postgres password="type_password_here")
+
+julia> LibPQ.execute(conn, "CREATE TABLE mytable (col1 SERIAL PRIMARY KEY NOT NULL, col2 VARCHAR(50), col3 INT)")
+
+julia> st = LibPQ.prepare(conn, "INSERT INTO MYTABLE(col2, col3) VALUES (\$1,\$2)")
+julia> LibPQ.execute(st,["testdata",7])
+julia> LibPQ.execute(st,["testdata2",8])
+
+julia> df = LibPQ.fetch!(DataFrame, LibPQ.execute(conn, "SELECT * FROM mytable"))
+
+julia> nt = LibPQ.fetch!(NamedTuple, LibPQ.execute(conn, "SELECT * FROM mytable"))
+
+julia> LibPQ.close(conn)
+
+
+using DataFrames
+using JDBC
+JDBC.usedriver("ojdbc8.jar")
+JDBC.init()
+
+conn = JDBC.DriverManager.getConnection("jdbc:oracle:thin:@ora.cez1pkekt7fj.us-east-2.rds.amazonaws.com:1521:ORCL",Dict("user"=>"orauser","password"=>"type_password_here"));
+
+st = JDBC.createStatement(conn);
+JDBC.execute(st, "CREATE TABLE mytable (col1 INT GENERATED ALWAYS AS IDENTITY NOT NULL,"
+ * " col2 VARCHAR2(50), col3 INT, CONSTRAINT col1 PRIMARY KEY (col1))");
+ 
+pst = JDBC.prepareStatement(conn, "INSERT INTO mytable (col2, col3) VALUES (:1,:2)")
+JDBC.setString(pst,1,"testdata")
+JDBC.setInt(pst,2,7)
+JDBC.executeUpdate(pst)
+JDBC.setString(pst,1,"testdata")
+JDBC.setInt(pst,2,8)
+JDBC.executeUpdate(pst)
+JDBC.commit(conn)
+
+julia> rs = executeQuery(st, "select * from mytable");
+julia> for r in rs
+           println(JDBC.getInt(r,1),"|",
+                   JDBC.getString(r,2),"|",JDBC.getInt(r,3))
+       end
+
+julia> close(conn)
+
+julia> conn = JDBC.Connection("jdbc:oracle:thin:@ora.cez1pkekt7fj.us-east-2.rds.amazonaws.com:1521:ORCL",
+                              props=Dict("user"=>"orauser",
+                                         "password"=>"type_password_here"));
+julia> csr=JDBC.Cursor(conn);
+julia> df = JDBC.load(DataFrame, csr, "select * from mytable")
+julia> nt = JDBC.load(NamedTuple, csr, "select * from mytable")
+julia> JDBC.close(csr)
+
+julia> JDBC.close(conn)
+
+
+using JDBC
+JDBC.usedriver("postgresql-42.2.4.jar")
+JDBC.init()
+conn = DriverManager.getConnection("jdbc:postgresql://localhost/postgres",
+                                   Dict("user"=>"postgres",
+                                        "password"=>"type_password_here"))
+
+
+using PyCall
+@pyimport elasticsearch
+
+es = elasticsearch.Elasticsearch()
+
+julia> es[:info]()  
+
+dat = Dict("col1"=>"some text","col2"=>"more text")
+res = es[:index](index="data", doc_type="data", id="1", body=dat)
+
+q=Dict("query"=>Dict("match"=>Dict("col1"=>Dict("query"=>"some text"))))
+
+julia> es[:search]("data",body=q)["hits"]["hits"]

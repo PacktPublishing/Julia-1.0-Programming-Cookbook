@@ -1,0 +1,60 @@
+julia> ]
+(v1.0) pkg> add JuMP
+(v1.0) pkg> add Clp
+(v1.0) pkg> add Cbc
+
+(v1.0) pkg> add Gurobi
+
+using JuMP
+using Clp
+
+
+m = Model(solver = ClpSolver());
+
+julia> @variable(m, x₁ >= 0)
+julia> @variable(m, x₂ >= 0)
+
+julia> @objective(m, Min, 50x₁ + 70x₂)
+
+julia> @constraint(m, 200x₁ + 2000x₂ >= 9000);
+julia> @constraint(m, 100x₁ +   30x₂ >=  300);
+julia> @constraint(m, 9x₁   +   11x₂ >=   60);
+
+julia> println(m)
+
+julia> status = solve(m)
+
+julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))
+
+
+using JuMP
+using Cbc
+m = Model(solver = CbcSolver());
+@variable(m, x₁ >= 0)
+@variable(m, x₂ >= 0, Int)
+@objective(m, Min, 50x₁ + 70x₂)
+@constraint(m, 200x₁ + 2000x₂ >= 9000)
+@constraint(m, 100x₁ +   30x₂ >=  300)
+@constraint(m, 9x₁   +   11x₂ >=   60)
+
+julia> status = solve(m)
+julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))
+
+
+julia> status = solve(m)
+
+$ grbgetkey xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+
+using JuMP
+using Gurobi
+m = Model(solver = GurobiSolver());
+@variable(m, x₁ >= 0)
+@variable(m, x₂ >= 0, Int)
+@objective(m, Min, 50x₁ + 70x₂)
+@constraint(m, 200x₁ + 2000x₂ >= 9000)
+@constraint(m, 100x₁ +   30x₂ >=  300)
+@constraint(m, 9x₁   +   11x₂ >=   60)
+
+julia> status = solve(m)
+
+julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))\nx₂=$(getvalue(x₂))")
