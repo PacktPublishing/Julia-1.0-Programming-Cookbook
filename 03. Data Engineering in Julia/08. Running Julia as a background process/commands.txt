@@ -1,0 +1,10 @@
+$ mkfifo pipe
+$ ls
+$ julia <pipe >log.txt 2>err.txt &
+$ exec 3>pipe
+$ echo "1+2" >&3
+$ echo "X" >&3
+$ echo "exit()" >&3
+$ cat log.txt
+$ cat err.txt
+$ rm pipe log.txt err.txt

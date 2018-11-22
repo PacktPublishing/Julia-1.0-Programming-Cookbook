@@ -1,0 +1,33 @@
+julia> csv = """a,b,c
+                11,2,3
+                4,555,6
+                7,8,9999"""
+julia> iocsv = IOBuffer(csv)
+julia> fwf = """a  b      c
+                11 2      3
+                4  555   66
+                7  8   9999"""
+julia> iofwf = IOBuffer(fwf)
+
+
+julia> using DelimitedFiles
+julia> datacsv, headercsv = readdlm(iocsv, ',', header=true)
+julia> headercsv
+julia> datacsv
+julia> function getsubstring(s::AbstractString,
+                             charfrom::Int,
+                             charto::Int)
+    SubString(s, nextind.(s, 0, (charfrom, charto))...)
+end
+julia> function readfwf(io, ranges::AbstractVector{<:Pair})
+    datafwf = []
+    starts = first.(ranges)
+    ends = last.(ranges)
+    while !eof(io)
+        line = readline(io)
+        push!(datafwf, getsubstring.(line, starts, ends))
+    end
+    [datafwf[i][j] for i in 1:length(datafwf), j in 1:length(ranges)]
+end
+julia> datafwf = readfwf(iofwf, [1=>2, 4=>6, 8=>11])
+julia> parse.(Int, datafwf[2:end,:])

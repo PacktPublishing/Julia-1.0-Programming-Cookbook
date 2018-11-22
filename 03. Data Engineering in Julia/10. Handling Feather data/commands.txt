@@ -1,0 +1,48 @@
+julia> ]
+(v1.0) pkg> add DataFrames
+(v1.0) pkg> add Feather
+(v1.0) pkg> add RCall
+(v1.0) pkg> add PyCall
+(v1.0) pkg> add Conda
+
+
+using Feather
+using DataFrames
+
+using Random
+Random.seed!(0);
+
+julia> df = DataFrame(x1=[1:3...,missing],
+                      x2=rand(4),
+                      x3=rand(1:10,4))
+
+julia> Feather.write("df.dat", df);
+
+julia> df2 = Feather.read("df.dat")
+
+julia> isequal(df,df2)
+
+julia> describe(df)[[1:3..., 5, 7, 8]]
+
+julia> describe(df2)[[1:3..., 5, 7, 8]]
+
+using RCall
+
+julia> $
+
+R> library(feather)
+R> dfR <- read_feather("df.dat")
+
+R> dfR
+
+julia> dfR = @rget dfR
+
+julia> describe(dfR)[[1:3..., 5, 7, 8]]
+
+using Conda
+Conda.runconda(`install feather-format -c conda-forge -y`)
+
+using PyCall
+@pyimport feather
+
+julia> dat = feather.read_dataframe("df.dat")

@@ -1,0 +1,64 @@
+$ julia iotest.jl
+
+
+$ more iotest.txt | julia iotest.jl 1> ioout1.txt 2> ioout2.txt
+$ more ioout1.txt
+$ more ioout2.txt
+
+
+$ more iotest2.txt | julia iotest.jl 1> ioout1.txt 2> ioout2.txt
+$ more ioout1.txt
+$ more ioout2.txt
+
+
+julia> f = open("my_data.txt", "w")
+
+julia> write(f, "first line\nsecond line\n")
+
+julia> println(f, "last line")
+julia> close(f)
+
+
+julia> f = open("my_data.txt", "r")
+julia> readline(f)
+julia> readline(f)
+julia> readline(f)
+
+julia> eof(f)
+
+julia> readline(f)
+
+julia> close(f)
+
+
+julia> lines = open("my_data.txt", "r") do f
+           readlines(f)
+       end
+
+
+julia> data = open("my_data.txt", "r") do f
+           read(f)                                    
+       end
+
+julia> text = String(data);
+
+julia> length(data)
+
+julia> text = read(f, String);
+
+
+julia> ]
+
+(v1.0) pkg> add StringEncodings
+
+
+using StringEncodings
+data = open("my_data.txt", "r") do f            
+      read(f)                                    
+end;
+txt = StringEncodings.decode(data,"Windows-1250")
+
+
+open("my_data.txt", "w") do f
+    write(f, "line\nsecond line")
+end

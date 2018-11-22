@@ -1,0 +1,86 @@
+julia> ]
+(v1.0) pkg> add PyCall
+(v1.0) pkg> add Conda 
+(v1.0) pkg> add DataFrames 
+(v1.0) pkg> add XLSX
+
+julia> using Conda
+julia> Conda.add("openpyxl")
+
+
+using PyCall
+using Dates
+using Random
+@pyimport openpyxl as xl
+
+julia> wb = xl.Workbook();
+julia> ws = wb[:active]
+
+julia> ws[:cell](1, 1, "Data generated on:")
+julia> ws[:cell](2, 1, Dates.now())
+
+Random.seed!(0)
+dat = rand(3, 5)
+for i in 1:size(dat)[1]
+    ws[:append]((dat[i, :]..., ))
+end
+
+wb[:save]("sample1.xlsx")
+
+wb = xl.load_workbook(filename = "sample1.xlsx")
+ws = wb[:active]
+
+println(ws[:cell](1, 1)[:value], "\n", ws[:cell](2, 1)[:value])
+
+julia> typeof(ws[:cell](2, 1)[:value])
+
+julia> ws[:cell](20, 221)[:value] == nothing
+
+julia> using Printf
+julia> for row in ws[:rows]
+    for cell in row
+        print("|")      
+        if typeof(cell[:value]) <: Number
+            @printf("%.3f", cell[:value])
+        else
+            show(cell[:value])
+        end
+    end
+    println("|")
+end
+
+
+wb[:close]()
+
+
+using XLSX
+
+XLSX.openxlsx("sample2.xlsx", mode="w") do xf
+    sheet = xf[1]
+    XLSX.rename!(sheet, "SheetName")
+    sheet["A1"] = "Data generated on:"
+    sheet["A2"] = Dates.now()
+    dat = rand(3, 5)
+    for row in 1:3
+        for col in 1:5
+            XLSX.setdata!(sheet, XLSX.CellRef(2+row, col), rand())
+        end
+    end
+end
+
+julia> wb = XLSX.readxlsx("sample2.xlsx")
+
+julia> sheetname = XLSX.sheetnames(wb)[1]
+julia> ws = wb[sheetname]
+
+julia> dim = ws.dimension
+
+XLSX.close(wb)
+
+using DataFrames
+df1 = DataFrame(a=[1, 2, 3], b=[4, 5, 6]);
+df2 = DataFrame(x1=[1, 2, 3], x2=["A", "B", "C"]);
+
+XLSX.writetable("sample3.xlsx",
+    SheetName1=( DataFrames.columns(df1), DataFrames.names(df1) ),
+    SheetName2=( DataFrames.columns(df2), DataFrames.names(df2) ));

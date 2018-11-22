@@ -1,0 +1,40 @@
+using JSON
+
+json_txt = """{
+       "key":"value",
+       "number":7,
+       "array":[1,2,5],
+       "dict":{"k1":"val1","k2":2}
+}""";
+
+julia> print(json_txt)
+
+julia> JSON.parse(json_txt)
+
+data = Dict{Int64,Union{Int64, String}}(1=>"text", 2=>999);
+
+julia> print(JSON.json(data))
+
+f = open("file.json", "w");
+JSON.print(f,data);
+close(f);
+
+f = open("file.json", "r");
+data2 = JSON.parse(f);
+close(f);
+
+data_copy = JSON.parsefile("file.json")
+
+julia> a = reshape(collect(1:8), 2, 4)
+
+julia> b = JSON.json(a)
+
+julia> JSON.parse(b)
+
+julia> struct S; x1::Int64; x2::Float64; x3::String; end
+        
+julia> s = S(1, 4.5, "test");
+                                    
+julia> println(JSON.json(s))
+                                    
+julia> JSON.parse(JSON.json(s))

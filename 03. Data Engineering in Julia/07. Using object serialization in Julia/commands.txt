@@ -1,0 +1,71 @@
+julia> ]
+(v1.0) pkg> add JLD2
+(v1.0) pkg> add FileIO
+(v1.0) pkg> add BSON
+
+
+using Serialization
+
+x = 1:5;
+open(f -> serialize(f,x), "x.jls", "w");
+
+y = open(deserialize, "x.jls");
+
+julia> dump(y)
+
+open("data.jls", "w") do f
+    serialize(f,Array{Int8}([1, 2, 4]));
+    serialize(f,Dict{Int64,String}(1=>"a", 2=>"b"));
+end
+
+julia> f = open("data.jls", "r");
+julia> deserialize(f)
+julia> deserialize(f)
+julia> close(f)
+
+
+using JLD2
+using FileIO
+
+x1 = 1:5;
+x2 = rand(3);
+file = File(format"JLD2","myfile.jld2")
+save(file, "x1", x1, "x2", x2)
+
+julia> data = load(file)
+
+julia> dump(data["x1"])
+
+
+using BSON
+
+x = 1:5
+d = Dict{Int64, String}(1=>"a", 2=>"b")
+e = 5+3im
+
+f = open("data.bson", "w")
+bson(f, Dict("x" => x, "d" => d))
+bson(f, Dict("e" => e))
+close(f)
+
+julia> f = open("data.bson", "r");
+julia> BSON.load(f)
+julia> BSON.load(f)
+julia> close(f)
+
+julia> ]
+(v1.0) pkg> add CodecZlib
+
+using CodecZlib
+using Serialization
+d=Dict([("txt", collect(1:1000000))]);
+open("big2.bin", "w") do f
+   comp = DeflateCompressorStream(f);
+   serialize(comp, d);
+   close(comp);
+end
+
+f=open("big2.bin", "r");
+decomp = DeflateDecompressorStream(f);
+d2=deserialize(decomp);
+close(f);

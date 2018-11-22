@@ -1,0 +1,66 @@
+julia> ]
+(v1.0) pkg> add HTTP 
+(v1.0) pkg> add Gumbo 
+(v1.0) pkg> add Cascadia 
+
+
+using HTTP, Gumbo, Cascadia
+
+r=HTTP.get("https://github.com/JuliaWeb");
+
+page_body = String(r.body);
+
+h = Gumbo.parsehtml(page_body);
+
+qs = HTMLElement[]
+Cascadia.matchAllInto(sel".d-inline-block.mb-1", h.root,qs);
+names_links = Tuple{String, String}[]
+for q in qs
+    name = strip(nodeText(children(q)[1][1]))
+    link = children(q)[1][1].attributes["href"]
+    push!(names_links, (name,link))
+end      
+
+julia> names_links
+
+julia> stats = Dict{String,String}()
+julia> @sync for (name, link) in names_links
+    @async begin
+        r2=HTTP.get("https://github.com"*link);
+        h2 = parsehtml(String(r2.body));
+        qs2 = HTMLElement[]
+        Cascadia.matchAllInto(sel".social-count.js-social-count", 
+        h2.root, qs2);
+        stats[name] = strip(nodeText(qs2[1]))
+    end
+end
+
+
+julia> stats
+
+julia> stats2 = Dict(key => parse(Int64, stats[key]) for key in keys(stats))
+
+julia> m=maximum(values(stats2))
+
+
+julia> ]
+(v1.0) pkg> add PyCall 
+(v1.0) pkg> add Conda 
+
+using PyCall
+using Conda
+Conda.add("scrapy")
+
+@pyimport scrapy.selector as ssel
+
+julia> s = ssel.Selector(text=page_body)
+
+julia> elems = s[:xpath]("//a[@itemprop='name codeRepository']")
+
+julia> strip(elems[1][:xpath]("text()")[1][:extract]())
+
+julia> strip(elems[2][:xpath]("text()")[1][:extract]())
+
+julia> a = elems[1][:xpath]("@href")[1][:extract]()
+
+julia> a = elems[2][:xpath]("@href")[1][:extract]()

@@ -1,0 +1,64 @@
+julia> ]
+(v1.0) pkg> add JuliaWebAPI
+(v1.0) pkg> add ZMQ
+(v1.0) pkg> add HTTP
+
+
+julia> using Sockets
+
+julia> server = Sockets.listen(8080)
+
+julia> while true
+    sock = Sockets.accept(server)
+    data = readline(sock)
+    print("Got request:\n", data, "\n") 
+    cmd = split(data, " ")[2][2:end] 
+    println(sock, "\nHTTP/1.1 200 OK\nContent-Type: text/html\n")
+    println(sock, string("<html><body>", cmd, "=", eval(Meta.parse(cmd)), "</body></html>"))
+    close(sock)
+end         #note that this will block the Julia console
+
+$ curl http://127.0.0.1:8080/5+9
+
+
+julia> using Sockets
+julia> client = Sockets.connect("127.0.0.1", 8080)
+
+julia> write(client, "GET /3*8\n")
+
+julia> readlines(client)
+
+using JuliaWebAPI
+using ZMQ
+
+function testfn(arg1, arg2; optarg1="10", optarg2="20")
+    println("T: ", arg1, " ", arg2, " ", optarg1, " ", optarg2)
+    return parse(Int, arg1)+parse(Int, arg2)+parse(Int, optarg1)+parse(Int, optarg2)
+end
+
+
+tr = JuliaWebAPI.ZMQTransport("tcp://127.0.0.1:9999", ZMQ.REP, true)
+apir = JuliaWebAPI.APIResponder(tr, JuliaWebAPI.JSONMsgFormat())
+
+
+julia> register(apir, testfn; resp_json=true,
+    resp_headers=Dict("Content-Type" => "application/json; charset=utf-8"))
+
+
+julia> process(apir)  #note that this will block the Julia console
+
+
+using JuliaWebAPI
+const apiclnt = JuliaWebAPI.APIInvoker("tcp://127.0.0.1:9999");
+
+julia> JuliaWebAPI.run_http(apiclnt, 8888)  #note that this will block the Julia console
+
+
+$ curl "http://127.0.0.1:8888/testfn/5/9?optarg1=100&optarg2=1000"
+
+
+julia> process(apir)
+
+
+julia> using HTTP
+julia> res = HTTP.get("http://127.0.0.1:8888/testfn/5/9?optarg1=100&optarg2=1000")

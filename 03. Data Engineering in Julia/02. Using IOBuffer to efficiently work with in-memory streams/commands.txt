@@ -1,0 +1,36 @@
+julia> function splitstring(s::AbstractString)
+           bufs = [IOBuffer() for i in 1:2]
+           idx = 1
+           for c in s
+               write(bufs[idx], c)
+               idx = 3 - idx
+           end
+           @. String(take!(bufs))
+       end
+julia> s = join('1':'9', "-")
+julia> splitstring(s)
+
+
+julia> function splitstring1(s::AbstractString)
+           bufs = [Char[] for i in 1:2]
+           idx = 1
+           for c in s
+               push!(bufs[idx], c)
+               idx = 3 - idx
+           end
+           join.(bufs)
+       end
+julia> function splitstring2(s::AbstractString)
+           bufs = ["" for i in 1:2]
+           idx = 1
+           for c in s
+               bufs[idx] *= c
+               idx = 3 - idx
+           end
+           bufs
+       end
+julia> using BenchmarkTools
+julia> s = "1"^10^4;
+julia> @benchmark splitstring($s)
+julia> @benchmark splitstring1($s)
+julia> @benchmark splitstring2($s)
