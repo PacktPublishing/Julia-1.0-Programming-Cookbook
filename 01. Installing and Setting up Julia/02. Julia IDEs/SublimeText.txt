@@ -1,0 +1,4 @@
+{
+    "cmd": ["ConEmu64", "/cmd", "julia -i", "$file"],
+    "selector": "source.julia"
+}

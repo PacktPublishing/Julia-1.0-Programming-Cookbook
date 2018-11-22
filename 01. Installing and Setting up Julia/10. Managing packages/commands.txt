@@ -1,0 +1,14 @@
+julia> ]
+(v1.0) pkg> status
+(v1.0) pkg> add BenchmarkTools
+(v1.0) pkg> status
+(v1.0) pkg> precompile
+
+
+julia> using BenchmarkTools
+julia> @btime rand()
+
+julia> ]
+(v1.0) pkg> add BSON@v0.2.0
+(v1.0) pkg> pin BSON
+(v1.0) pkg> free BSON

@@ -1,0 +1,5 @@
+ {
+ "cmd" : ["julia", "$file", "$args"],
+ "info" : "Started $project_path$file_name",
+ "selector" : "source.jl"
+ }

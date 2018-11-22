@@ -1,0 +1,6 @@
+$ julia -i hello.jl Al Bo Cyd
+$ julia -e "println(factorial(10))"
+$ julia --banner=no
+
+
+julia> RandomDevice()

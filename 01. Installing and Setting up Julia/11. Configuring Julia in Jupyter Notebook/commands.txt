@@ -1,0 +1,16 @@
+julia> ]
+(v1.0) pkg> add IJulia
+
+julia> using IJulia
+julia> notebook()
+
+
+$ ~/.julia/packages/Conda/hsaaN/deps/usr/bin/jupyter notebook
+
+
+C:\> %userprofile%\.julia\packages\Conda\hsaaN\deps\usr\Scripts\jupyter-notebook
+
+
+ENV["JUPYTER"] = "[path to your jupyter program]"
+using Pkg
+Pkg.build("IJulia")

@@ -1,0 +1,20 @@
+julia> x = 10 # just a test command
+julia> @edit sin(1.0)
+julia> ;
+
+
+# Linux bash
+shell> ls
+
+# Windows cmd
+shell> dir
+
+
+julia> include("example.jl")
+julia> ?
+help?> include
+julia> <CTRL-R>
+(reverse-i-search)`x =': x = 10
+julia> x = 10
+julia> exit()
+julia> @which sin(1.0)

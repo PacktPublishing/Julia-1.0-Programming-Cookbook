@@ -1,0 +1,40 @@
+$ julia --banner=no -p 2
+
+
+julia> using Distributed
+julia> nworkers()
+julia> exit()
+
+
+$ julia --banner=no -p auto -L hello.jl
+
+
+julia> exit()
+
+
+$ julia --banner=no -p auto -L hello2.jl
+
+
+julia> exit()
+
+
+# Linux bash
+$ export JULIA_NUM_THREADS=`nproc`
+$ julia -e "println(Threads.nthreads())"
+
+
+# Windows cmd
+C:\> set JULIA_NUM_THREADS=%NUMBER_OF_PROCESSORS%
+C:\> julia -e "println(Threads.nthreads())"
+
+
+D:\> julia --banner=no -p 2 -L hello2.jl
+
+
+julia> pwd()
+julia> using Distributed
+julia> pmap(i -> (i, myid(), pwd()), 1:nworkers())
+julia> cd("C:\\")
+julia> pwd()
+julia> addprocs(2)
+julia> pmap(i -> (i,myid(),pwd()), 1:nworkers())

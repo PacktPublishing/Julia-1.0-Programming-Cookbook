@@ -1,0 +1,44 @@
+$ sudo apt update
+$ sudo apt install --yes build-essential python-minimal gfortran m4 cmake pkg-config libssl-dev 
+
+
+$ git clone git://github.com/JuliaLang/julia.git
+$ cd julia
+$ git checkout v1.0.1
+
+$ make -j $((`nproc`-1)) 1>build_log.txt 2>build_error.txt
+
+
+$ cd ~
+# Get link from MKL website
+$ wget http://registrationcenter-download.intel.com/[go to Intel MKL web site to get link]/l_mkl_2019.0.117.tgz
+$ tar zxvf l_mkl_2019.0.117.tgz
+$ cd l_mkl_2019.0.117
+$ sudo bash install.sh
+
+cd ~/julia
+echo "USEICC = 0" >> Make.user
+echo "USEIFC = 0" >> Make.user
+echo "USE_INTEL_MKL = 1" >> Make.user
+echo "USE_INTEL_LIBM = 0" >> Make.user
+source /opt/intel/bin/compilervars.sh intel64
+make -j $((`nproc`-1)) 1>build_log.txt 2>build_error.txt
+
+
+$ cd ~
+# Get the link from Intel C++ compilers website
+$ wget http://[go to Intel to get link]/parallel_studio_xe_2018_update3_professional_edition.tgz
+$ tar zxvf parallel_studio_xe_2018_update3_professional_edition.tgz
+$ cd parallel_studio_xe_2018_update3_professional_edition
+$ sudo bash install.sh
+
+cd ~/julia
+echo "USEICC = 0" >> Make.user
+echo "USEIFC = 0" >> Make.user
+echo "USE_INTEL_MKL = 1" >> Make.user
+echo "USE_INTEL_LIBM = 1" >> Make.user
+source /opt/intel/bin/compilervars.sh intel64
+make -j $((`nproc`-1)) 1>build_log.txt 2>build_error.txt
+
+
+$ sudo ln -s /home/ubuntu/julia/usr/bin/julia /usr/local/bin/julia

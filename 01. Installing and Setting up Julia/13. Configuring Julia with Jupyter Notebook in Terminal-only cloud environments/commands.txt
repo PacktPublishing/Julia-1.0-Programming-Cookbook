@@ -1,0 +1,13 @@
+$ chmod 400 keyfile.pem
+
+
+$ ssh -i path/to/keyfile.pem -L8888:127.0.0.1:8888 ubuntu@[enter_hostname_here]
+
+$ ~/.julia/packages/Conda/hsaaN/deps/usr/bin/jupyter lab
+
+C:\> %userprofile%\.julia\packages\Conda\hsaaN\deps\usr\Scripts\jupyter-lab
+
+
+julia> using IJulia
+julia> notebook(detached=true)
+julia> run(`$(IJulia.notebook_cmd[1]) notebook list`)

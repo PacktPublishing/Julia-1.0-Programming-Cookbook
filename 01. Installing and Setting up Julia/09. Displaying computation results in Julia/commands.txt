@@ -1,0 +1,10 @@
+julia> using Pkg; Pkg.add("PyPlot")
+julia> include("display.jl")
+
+
+$ julia display.jl
+$ julia display2.jl
+
+
+julia> transpose(1:100)
+julia> rand(100, 100);

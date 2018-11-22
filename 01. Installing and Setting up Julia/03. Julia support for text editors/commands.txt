@@ -1,0 +1,12 @@
+$ wget -P ~/ https://raw.githubusercontent.com/Naereen/nanorc/master/julia.nanorc
+$ echo include \"~/julia.nanorc\" >> ~/.nanorc
+
+
+git clone git://github.com/JuliaEditorSupport/julia-vim.git
+mkdir -p ~/.vim
+cp -R julia-vim/* ~/.vim
+
+
+wget -P ~/julia-emacs/ https://raw.githubusercontent.com/JuliaEditorSupport/julia-emacs/master/julia-mode.el
+echo "(add-to-list 'load-path \"~/julia-emacs\")" >> ~/.emacs
+echo "(require 'julia-mode)" >> ~/.emacs

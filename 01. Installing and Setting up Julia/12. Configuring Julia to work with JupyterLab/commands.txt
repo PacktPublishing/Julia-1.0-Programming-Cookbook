@@ -1,0 +1,21 @@
+julia> ]
+(v1.0) pkg> add Conda
+
+julia> using Conda
+julia> Conda.add("jupyterlab")
+
+
+$ ~/.julia/packages/Conda/hsaaN/deps/usr/bin/jupyter lab
+
+
+C:\> %userprofile%\.julia\packages\Conda\hsaaN\deps\usr\Scripts\jupyter-lab
+
+
+$ wget https://repo.anaconda.com/archive/Anaconda3-5.3.0-Linux-x86_64.sh
+
+$ sudo bash Anaconda3-5.3.0-Linux-x86_64.sh
+
+$ /home/ubuntu/anaconda3/bin/jupyter lab
+
+
+C:\> C:\ProgramData\Anaconda3\Scripts\jupyter-lab.exe
