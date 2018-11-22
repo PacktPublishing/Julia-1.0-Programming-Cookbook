@@ -1,0 +1,18 @@
+julia> include("parselog.jl")
+julia> ]
+(v1.0) pkg> dev DataFrames
+julia> gitstats(joinpath(DEPOT_PATH[1], "dev/DataFrames"))
+julia> ]
+(v1.0) pkg> free DataFrames
+
+
+julia> function f()
+           for i in 1:2
+               if i == 1
+                   j = 1
+               else
+                   println(j)
+               end
+           end
+       end
+julia> f()

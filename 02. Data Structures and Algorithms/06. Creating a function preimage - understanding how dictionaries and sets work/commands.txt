@@ -1,0 +1,28 @@
+julia> preimage = Dict{Float64, Set{Tuple{Float64, Float64}}}()
+julia> for x in -2.0:2.0, y in -2.0:2.0
+           k = x / y
+           v = (x, y)
+           if haskey(preimage, k)
+               push!(preimage[k], v)
+           else
+               preimage[k] = Set([v])
+           end
+       end
+julia> for k in sort!(collect(keys(preimage)))
+           println(k, ":\t", join(sort!(collect(preimage[k])), ",\t"))
+       end
+
+
+julia> f1 = NaN
+julia> f2 = -NaN
+julia> reinterpret(UInt64, f1)
+julia> reinterpret(UInt64, f2)
+julia> f1 === f2
+julia> isequal(f1, f2)
+julia> Set([f1, f2])
+julia> Set([0.0, -0.0])
+julia> reinterpret(UInt64, 0.0)
+julia> reinterpret(UInt64, -0.0)
+julia> 1/0.0
+julia> 1/-0.0
+julia> unique([-0.0, 0.0, 0.0, -0.0, NaN, -NaN])

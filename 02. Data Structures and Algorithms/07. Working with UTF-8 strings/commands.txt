@@ -1,0 +1,17 @@
+julia> hello = readlines("hello.txt")
+julia> hello_dict = Dict(map(x->Pair(x...), split.(hello, ' ')))
+julia> chinese = hello_dict["Chinese"]
+julia> codeunits(chinese)
+julia> ncodeunits(chinese)
+julia> collect(chinese)
+julia> length(chinese)
+julia> isvalid.(chinese, 1:ncodeunits(chinese))
+julia> thisind.(chinese, 0:ncodeunits(chinese)+1)
+julia> nextind.(chinese, 0:ncodeunits(chinese))
+julia> prevind.(chinese, 1:ncodeunits(chinese)+1)
+
+
+julia> s=String([0xff, 0xff, 0xff])
+julia> isvalid(s)
+julia> collect(s)
+julia> s[1]

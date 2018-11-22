@@ -1,0 +1,36 @@
+julia> using Random
+julia> mutable struct Xorshift <: AbstractRNG
+           state::UInt64
+       end
+julia> Xorshift() = Xorshift(rand(RandomDevice(), UInt64))
+julia> Random.seed!(r::Xorshift, seed::UInt64 = rand(RandomDevice(), UInt64)) = r.state = seed
+julia> function xorshift_rand(r::Xorshift)
+           state = r.state
+           state ⊻= state << 13
+           state ⊻= state >> 7
+           state ⊻= state << 17
+           r.state = state
+       end
+julia> const XorshiftSamplers = Union{map(T->Random.SamplerType{T},
+    [Bool, UInt32, Int32, UInt64, Int64])...}
+julia> Base.rand(r::Xorshift, sampler::XorshiftSamplers) = xorshift_rand(r) % sampler[]
+julia> Random.rng_native_52(::Xorshift) = UInt64
+julia> using StatsBase
+julia> r = Xorshift(0x0139408dcbbf7a44)
+julia> countmap(rand(r, 1:10, 10^8))
+julia> const X = zeros(Int, 5, 5)
+julia> foreach(i -> X[rand(r, 1:5), rand(r, 1:5)] += 1, 1:10^7)
+julia> 25 * X / 10^7
+
+
+julia> rand(Xorshift(), UInt128)
+julia> function Base.rand(r::Xorshift, sampler::Random.SamplerType{UInt128})
+           r1 = rand(r, UInt64)
+           r2 = rand(r, UInt64)
+           (UInt128(r1) << 64) | r2
+       end
+julia> rand(Xorshift(), UInt128)
+julia> using BenchmarkTools
+julia> r = Xorshift()
+julia> @benchmark rand()
+julia> @benchmark rand($r)

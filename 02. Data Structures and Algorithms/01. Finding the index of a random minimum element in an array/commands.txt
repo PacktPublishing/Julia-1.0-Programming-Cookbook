@@ -1,0 +1,20 @@
+julia> function allargmin(a)
+           m = minimum(a)
+           filter(i -> a[i] == m, eachindex(a))
+       end
+julia> randargmin1(a) = rand(allargmin(a))  
+julia> include("randargmin2.jl")
+julia> using StatsBase
+julia> x = [1, 2, 3, 1, 2, 3, 1, 1]
+julia> countmap([randargmin1(x) for i in 1:10^6])
+julia> countmap([randargmin2(x) for i in 1:10^6])
+julia> x = rand(1:10, 1000);
+julia> using BenchmarkTools
+julia> @btime randargmin1($x);
+julia> @btime randargmin2($x);
+
+
+julia> 0.0 == -0.0, -0.0 < 0.0
+julia> isequal(0.0, -0.0), isless(-0.0, 0.0)
+julia> NaN == NaN, NaN < NaN
+julia> isequal(NaN, NaN), isless(NaN, NaN)

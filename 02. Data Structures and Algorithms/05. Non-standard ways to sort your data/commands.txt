@@ -1,0 +1,11 @@
+julia> using Random, LinearAlgebra
+julia> Random.seed!(1);
+julia> x = rand(1000, 1000);
+julia> x1 = sortslices(x, by=norm, dims=1);
+julia> x2 = sortslices(x, lt=(x,y) -> norm(x) < norm(y), dims=1);
+julia> x3 = x[sortperm([norm(view(x, i, :)) for i in 1:size(x, 1)]), :];
+julia> issorted(sum(x1.^2, dims=2))
+julia> x1 == x2 == x3
+julia> @time x1 = sortslices(x, by=norm, dims=1);
+julia> @time x2 = sortslices(x, lt=(x,y) -> norm(x) < norm(y), dims=1);
+julia> @time x3 = x[sortperm([norm(view(x, i, :)) for i in 1:size(x, 1)]), :];

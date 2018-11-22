@@ -1,0 +1,16 @@
+julia> include("fastmatmul.jl")
+julia> using BenchmarkTools
+julia> A = ones(5, 5000);
+julia> B = ones(5000, 5);
+julia> @btime *(repeat([A,B], outer=10)...);
+julia> @btime fastmatmul(repeat([A,B], outer=10)...);
+
+
+julia> macro fastmatmul(ex::Expr)
+           ex.head == :call || throw(ArgumentError("expression must be a call"))
+           ex.args[1] == :(*) || throw(ArgumentError("only multiplication is allowed"))
+           new_ex = deepcopy(ex)
+           new_ex.args[1] = :fastmatmul
+           esc(new_ex)
+       end
+julia> @fastmatmul ones(2,3)*ones(3,4)*ones(4,5)
