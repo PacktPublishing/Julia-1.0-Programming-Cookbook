@@ -1,0 +1,6 @@
+julia> include("expand.jl")
+julia> expandgrid(1:2, 'a':'b')
+julia> hcat(expandgrid(1:3, [true, false], 'a':'b')...)
+
+
+julia> repeat([1,2], inner=2, outer=3)

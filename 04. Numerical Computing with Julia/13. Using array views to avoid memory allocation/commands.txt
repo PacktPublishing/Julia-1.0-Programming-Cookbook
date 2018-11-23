@@ -1,0 +1,32 @@
+$ julia sudoku.jl
+
+
+function backtrack!(x, z, idx)
+    idx > length(z) && return true
+    pos = z[idx]
+    iloc = 3div(pos[1]-1, 3)
+    jloc = 3div(pos[2]-1, 3)
+    filled = 0
+    @inbounds for k in 1:9
+        filled |= x[pos[1], k] | x[k, pos[2]]
+    end
+    @inbounds for k1 in 1:3, k2 in 1:3
+        filled |= x[iloc+k1, jloc+k2]
+    end
+    @inbounds for i in 1:9
+        k = 1<<i
+        if k & filled == 0
+            x[pos] = k
+            backtrack!(x, z, idx+1) && return true
+        end
+    end
+    x[pos] = 1
+    return false
+end
+
+function ssolve(lines, i)
+    t = [1 << (lines[10i-j][k] - '0') for j in 8:-1:0, k in 1:9]
+    z = findall(isequal(1), t)
+    backtrack!(t, z, 1)
+    sum([100, 10, 1] .* trailing_zeros.(t[1, 1:3]))
+end

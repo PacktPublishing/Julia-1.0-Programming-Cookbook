@@ -1,0 +1,6 @@
+julia> include("sums.jl")
+julia> using BenchmarkTools
+julia> x = rand(10^4, 10^4);
+julia> @btime sum_by_row(x)
+julia> @btime sum_by_col(x)
+julia> @btime sum(x)

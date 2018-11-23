@@ -1,0 +1,3 @@
+julia> x = [1:10;]
+julia> s = isodd.(x) .& (rand(length(x)) .< 0.5)
+julia> s = @. isodd(x) & ($rand($length(x)) < 0.5)

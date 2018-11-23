@@ -1,0 +1,27 @@
+julia> function our_pi(n, T)
+           s = one(T)
+           f = one(T)
+           for i::T in 1:n
+               f *= i / (2i+1)
+               s += f
+           end
+           2s
+       end
+julia> for T in [Float16, Float64, BigFloat]
+    display([our_pi(2^n, T) for n in 1:10] .- big(π))
+end
+julia> our_pi(1000, BigFloat) - pi
+julia> setprecision(1000) do
+    our_pi(1000, BigFloat)-pi
+end
+julia> our_pi(23, Rational)
+julia> our_pi(23, Rational{BigInt})
+
+
+julia> setprecision(() -> our_pi(1000, BigFloat), 1000) - pi
+
+
+julia> (typeof∘one).([AbstractFloat, Rational])
+julia> typeof(2*one(Rational{Integer}))
+julia> typeof(2*one(Rational{Signed}))
+julia> typeof(2*one(Rational{Unsigned}))

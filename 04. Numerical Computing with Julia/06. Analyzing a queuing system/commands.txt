@@ -1,0 +1,26 @@
+$ julia -i mm1.jl
+
+
+julia> ad = Exponential(1.3)
+julia> sd = Exponential(0.95)
+julia> @time res = [queue1(2^14, 2^12, ad, sd) for i in 1:2^12];
+julia> exact = mm1_exact(ad, sd)
+julia> @time println(bootCI(res .- exact, mean, 0.99, 2^14))
+
+
+function bootCI(data, stat::Function, CI::Float64, reps::Integer)
+    tmp = similar(data)
+    boot = [stat(rand!(tmp, data)) for i in 1:reps]
+    low, high = quantile(boot, [(1-CI)/2, (1+CI)/2])
+    (value=stat(data), low=low, high=high)
+end
+
+
+using StatsBase, Distributions
+
+function bayesbootCI(data, stat, CI::Float64, reps::Integer)
+    d = Dirichlet(length(data), 1)
+    boot = [stat(data, weights(rand(d))) for i in 1:reps]
+    low, high = quantile(boot, [(1-CI)/2, (1+CI)/2])
+    (value=stat(data), low=low, high=high)
+end

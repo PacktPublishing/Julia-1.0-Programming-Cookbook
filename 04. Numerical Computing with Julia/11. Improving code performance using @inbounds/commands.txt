@@ -1,0 +1,11 @@
+$ julia inbounds.jl
+$ julia --check-bounds=yes inbounds.jl
+$ julia --check-bounds=no inbounds.jl
+
+
+julia> x = [1,2,3]
+julia> x[4]
+julia> f(x) = @inbounds x[1]
+julia> g(x) = x[1]
+julia> @code_native f([1])
+julia> @code_native g([1])

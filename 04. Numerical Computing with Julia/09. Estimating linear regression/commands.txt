@@ -1,0 +1,6 @@
+julia> include("lm.jl")
+julia> using CSV
+juila> wages = CSV.read("wages.csv",
+                        allowmissing=:none,
+                        categorical=true);
+juila> lm(wages, :LWage, setdiff(names(wages), [:LWage]))

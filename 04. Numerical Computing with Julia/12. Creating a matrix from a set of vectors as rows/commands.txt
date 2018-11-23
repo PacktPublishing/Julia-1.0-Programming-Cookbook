@@ -1,0 +1,22 @@
+julia> input = [[10i+1:10i+5;] for i in 1:3]
+julia> output = [10i+j for i in 1:3, j in 1:5]
+julia> hcat(input...)
+julia> vcat(x...)
+julia> reduce(vcat, transpose.(input))
+julia> hcat(transpose.(input)...)
+julia> transpose(hcat(input...))
+julia> vcat(reshape.(input, 1, :)...)
+
+
+julia> hcat(input[1])
+julia> x = [1 2; 3 4]
+julia> y = transpose(x)
+julia> y[1] = 100
+julia> x
+
+
+julia> hcat(permutedims.(input)...)
+julia> vcat(permutedims.(input)...)
+julia> permutedims(hcat(input...))
+julia> [output[i,:] for i in 1:size(output, 1)]
+julia> [input[i][j] for i in 1:length(input), j in 1:length(input[1])]

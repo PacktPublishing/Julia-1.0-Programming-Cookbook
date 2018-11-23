@@ -1,0 +1,52 @@
+julia> using Random, BenchmarkTools
+julia> Random.seed!(1);
+julia> x = randn(10^6);
+
+
+julia> @btime sum(v for v in x if v > 0)
+julia> function possum1(x)
+           s = zero(eltype(x))
+           for v in x
+               if v > 0
+                   s += v
+               end
+           end
+           s
+       end
+julia> @btime possum1(x)
+julia> function possum2a(x)
+           s = zero(eltype(x))
+           for v in x
+               s += ifelse(v > 0, v, zero(s))
+           end
+           s
+       end
+julia> @btime possum2a(x)
+julia> function possum2b(x)
+           s = zero(eltype(x))
+           @simd for v in x
+               s += ifelse(v > 0, v, zero(s))
+           end
+           s
+       end
+julia> @btime possum2b(x)
+
+
+julia> function possum2c(x)
+           s = 0
+           for v in x
+               s += ifelse(v > 0, v, 0)
+           end
+           s
+       end
+julia> @btime possum2c(x)
+
+
+julia> function possum2d(x::AbstractArray{T}) where T
+           s = zero(T)
+           @simd for v in x
+               s += ifelse(v > 0, v, zero(T))
+           end
+           s
+       end
+julia> @btime possum2d(x)

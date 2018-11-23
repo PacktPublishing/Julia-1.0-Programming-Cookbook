@@ -1,0 +1,41 @@
+julia> include("simwalk.jl")
+julia> n = 10^6;
+julia> Random.seed!(1);
+julia> res1 = mean([simwalk() for i in 1:n])
+julia> res2 = mean(map(x -> simwalk(), 1:n))
+julia> res3 = mean(simwalk() for i in 1:n)
+julia> res4 = incremental(n)
+julia> n = 10^8;
+julia> @time mean([simwalk() for i in 1:n]);
+julia> @time mean(map(x -> simwalk(), 1:n));
+julia> @time mean(simwalk() for i in 1:n);
+julia> @time incremental(n);
+julia> MathConstants.e - incremental(10^9)
+
+
+julia> function simwalk(n)
+           jumps = 0
+           for i in 1:n
+               distance = 0.0
+               while true
+                   jumps += 1
+                   distance += rand()
+                   distance ≥ 1.0 && break
+               end
+           end
+           jumps / n
+       end
+julia> simwalk(10^6)
+julia> @time simwalk(10^8)
+julia> function simwalk(n)
+           jumps = Int32(0)
+           for i in 1:n
+               distance = 0.0
+               while true
+                   jumps += Int32(1)
+                   distance += rand()
+                   distance ≥ 1.0 && break
+               end
+           end
+           jumps / n
+       end

@@ -1,0 +1,17 @@
+julia> function juliapoint(z, c)
+           for n in 1:255
+               z = z^2 + c
+               abs2(z) > 4 && return n
+           end
+           return 256
+       end
+julia> using PyPlot
+julia> xs = -1.4:0.002:1.4;
+julia> ys = -1.05:0.002:1.05;
+julia> c = -0.4+0.6im;
+julia> res = [juliapoint(complex(x, y), c) for y in ys, x in xs];
+julia> imshow(res, extent=[extrema(xs)..., extrema(ys)...], cmap="gray_r")
+
+
+julia> size(res)
+julia> [extrema(xs)..., extrema(ys)...]
