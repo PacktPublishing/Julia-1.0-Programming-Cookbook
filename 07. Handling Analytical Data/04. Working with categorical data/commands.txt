@@ -1,0 +1,20 @@
+julia> using DataFrames
+julia> grade_levels = ["F"; [x*y for x in 'D':-1:'A' for y in ["-", "", "+"]]]
+julia> using Random
+julia> Random.seed!(1);
+julia> grades = categorical(rand(grade_levels, 100), ordered=true);
+julia> levels!(grades, grade_levels);
+julia> df = DataFrame(id=eachindex(grades), grades = grades);
+julia> isordered(grades)
+julia> levels(grades)
+julia> describe(df, stats=:eltype)
+julia> filter(x -> x.grades > "A-", df)
+
+
+julia> grades[1:10] .* " grade"
+
+
+julia> x = repeat(["a"^20, "b"^20], 1000);
+julia> y = categorical(x);
+julia> Base.summarysize(x)
+julia> Base.summarysize(y)

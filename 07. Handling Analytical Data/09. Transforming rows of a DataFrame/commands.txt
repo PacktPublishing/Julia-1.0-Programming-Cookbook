@@ -1,0 +1,22 @@
+julia> using CSV, DataFrames
+julia> df = CSV.read("grades.csv");
+
+
+julia> function get_grade(final, midterm, takehome)
+           (ismissing(final) || final < 50) && return "fail"
+           if final < 75 && coalesce(midterm, 0) < 50 && coalesce(takehome, 0) < 50
+               "fail"
+           else
+               "pass"
+           end
+       end
+julia> df.grade = get_grade.(df.Final, df.Midterm, df.TakeHome);
+julia> df.grade2 = map(eachrow(df)) do r
+       coalesce(r.Final, 0) < 50 && return "fail"
+       if r.Final < 75 && coalesce(r.Midterm, 0) < 50 && coalesce(r.TakeHome < 50)
+           "fail"
+       else
+           "pass"
+       end
+       end;
+julia> df.grade == df.grade2

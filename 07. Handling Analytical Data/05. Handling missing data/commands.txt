@@ -1,0 +1,37 @@
+julia> download("https://openmv.net/file/class-grades.csv",
+                "grades.csv")
+julia> using CSV, DataFrames, Statistics
+julia> df = CSV.read("grades.csv");
+
+
+julia> summary(df)
+julia> describe(df, stats=[:min, :max, :nmissing])
+julia> CSV.validate("grades.csv")
+julia> [cor(df[i], df[j]) for i in axes(df, 2), j in axes(df, 2)]
+julia> df2 = dropmissing(df);
+julia> describe(df2, stats=:nmissing)
+julia> [cor(df2[i], df2[j]) for i in axes(df2, 2), j in axes(df2, 2)]
+julia> function cor2(x, y)
+           df = dropmissing(DataFrame([x, y]))
+           cor(df[1], df[2])
+       end
+julia> [cor2(df[i], df[j]) for i in axes(df, 2), j in axes(df, 2)]
+
+
+julia> sin(missing)
+julia> 1 + missing
+julia> s = ["a", "bb", missing, "dddd"]
+julia> (x -> isequal(x, missing) ? missing : length(x)).(s)
+julia> 1 == missing
+julia> missing == missing
+julia> 1 < missing
+julia> isequal(1, missing)
+julia> isequal(missing, missing)
+julia> isless(1, missing)
+julia> isless(Inf, missing)
+
+
+julia> include("cor.jl");
+julia> cor(df)
+julia> cor(df, method=CorComplete())
+julia> cor(df, method=CorPairwise())

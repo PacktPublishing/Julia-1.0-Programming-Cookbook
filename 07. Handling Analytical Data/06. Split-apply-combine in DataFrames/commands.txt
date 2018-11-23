@@ -1,0 +1,19 @@
+julia> using CSV, DataFrames
+julia> df = CSV.read("iris.csv", footerskip=1,
+                     header=["PetalLength", "PetalWidth",
+                             "SepalLength", "SepalWidth", "Class"]);
+julia> describe(df, stats=[:mean, :nmissing])
+julia> using Statistics
+julia> by(df, :Class) do x
+           DataFrame(n = nrow(x),
+                     mean = mean(x.SepalWidth),
+                     std = std(x.SepalWidth))
+       end
+
+
+julia> by(df, :Class, x -> describe(x, stats=[:mean, :nunique]))
+
+
+julia> adf = aggregate(df, :Class, maximum);
+julia> describe(adf, stats=:mean)
+julia> summary(adf)

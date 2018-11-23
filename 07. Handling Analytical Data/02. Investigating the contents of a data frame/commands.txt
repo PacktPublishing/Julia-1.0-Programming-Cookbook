@@ -1,0 +1,7 @@
+julia> using DataFrames, Random
+julia> Random.seed!(1);
+julia> df = DataFrame(rand(1000, 100));
+julia> nrow(df), ncol(df), size(df)
+julia> describe(df[1:3])
+julia> filter(x -> occursin(r"1[13579]$", String(x[:variable])),
+              describe(df))

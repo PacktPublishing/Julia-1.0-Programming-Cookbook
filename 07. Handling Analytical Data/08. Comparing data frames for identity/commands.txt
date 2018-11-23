@@ -1,0 +1,20 @@
+julia> using CSV, DataFrames
+julia> df1 = CSV.read("grades.csv")
+
+
+julia> using Random
+julia> Random.seed!(1);
+julia> df2 = df1[shuffle(axes(df1, 1)), shuffle(axes(df1, 2))];
+julia> res = join(df1, df2, kind=:outer,
+                  on=union(names(df1), names(df2)),
+                  indicator=:check, validate=(true, true));
+julia> unique(res.check)
+julia> res = join(df1[1:end-1,:], df2[2:end,:], kind=:outer,
+                  on=union(names(df1), names(df2)),
+                  indicator=:check, validate=(true, true));
+julia> by(res, :check, nrow)
+
+
+julia> using StatsBase
+julia> df_id(df) = countmap(collect(eachrow(df[sort(names(df))])))
+julia> df_id(df1) == df_id(df2)

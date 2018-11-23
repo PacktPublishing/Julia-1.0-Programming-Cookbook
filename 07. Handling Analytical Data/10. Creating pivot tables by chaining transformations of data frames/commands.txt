@@ -1,0 +1,10 @@
+julia> using DataFrames, DataFramesMeta, CSV, Statistics
+julia> df = CSV.read("iris.csv", footerskip=1,
+                     header=["PetalLength", "PetalWidth",
+                             "SepalLength", "SepalWidth", "Class"]);
+
+
+julia> @linq df |>
+       where(:Class .== "Iris-setosa") |>
+       by([:PetalLength, :SepalWidth], meanSL = mean(:SepalLength)) |>
+       unstack(:SepalWidth, :meanSL)

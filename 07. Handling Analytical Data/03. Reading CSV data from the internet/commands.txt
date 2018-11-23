@@ -1,0 +1,14 @@
+julia> download("https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data",
+                "iris.csv")
+julia> isfile("iris.csv")
+julia> readline("iris.csv")
+julia> using CSV, DataFrames
+julia> df = CSV.read("iris.csv",
+                     header=["PetalLength", "PetalWidth",
+                             "SepalLength", "SepalWidth", "Class"]);
+julia> describe(df)
+julia> tail(df)
+julia> eltypes(df)
+julia> df = disallowmissing!(df[1:end-1, :]);
+julia> eltypes(df)
+julia> CSV.write("iris2.csv", df);

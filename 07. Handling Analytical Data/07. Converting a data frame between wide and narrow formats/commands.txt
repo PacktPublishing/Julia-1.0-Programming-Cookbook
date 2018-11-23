@@ -1,0 +1,24 @@
+julia> using CSV, DataFrames
+julia> df = CSV.read("iris.csv", footerskip=1,
+                     header=["PetalLength", "PetalWidth",
+                             "SepalLength", "SepalWidth", "Class"]);
+
+
+julia> df.id = axes(df, 1);
+julia> sdf = stack(df)
+julia> describe(sdf, stats=[:min, :max])
+julia> udf = unstack(sdf, :variable, :value);
+julia> names(udf)
+julia> permutecols!(udf, names(df));
+julia> df == udf
+julia> using Statistics
+julia> agg = by(sdf, [:Class, :variable],
+                x -> DataFrame(value=mean(x.value), n = nrow(x)))
+julia> agg2 = unstack(agg, :Class, :variable, :value);
+julia> agg3 = by(df, :Class) do x
+       DataFrame(PetalLength=mean(x.PetalLength),
+                 PetalWidth=mean(x.PetalWidth),
+                 SepalLength=mean(x.SepalLength),
+                 SepalWidth=mean(x.SepalWidth));
+       end;
+julia> agg2 == agg3

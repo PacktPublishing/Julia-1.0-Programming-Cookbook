@@ -1,0 +1,14 @@
+julia> using DataFrames
+julia> mat = [x*y for x in 1:3, y in 1:4]
+julia> df = DataFrame(mat)
+julia> df = DataFrame(mat, [:a, :b, :c, :d])
+julia> Matrix(df)
+
+
+julia> vals = [1, 2];
+julia> df = DataFrame(a=vals, b=["x", "y"])
+julia> df.a[1] = 8
+julia> vals
+
+
+julia> getindex.(eachcol(df), 2)
