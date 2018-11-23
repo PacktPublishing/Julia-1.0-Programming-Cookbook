@@ -1,0 +1,7 @@
+julia> include("types.jl")
+julia> printsubtypes(Number)
+julia> supertypes(Bool)
+
+
+julia> typeof(1 + 1im)
+julia> typeof(1.0 + 1.0im)

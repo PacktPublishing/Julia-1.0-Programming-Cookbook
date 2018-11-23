@@ -1,0 +1,97 @@
+julia> ]
+(v1.0) pkg> add BenchmarkTools
+
+
+function fib(n)
+    n <= 2 ? 1 : fib(n-1) + fib(n-2)
+end
+
+julia> fib(4)
+julia> @time fib(40)
+
+function memoit(f::Function, p)
+    if !isdefined(Main, :memoit_cache)
+        global memoit_cache = Dict{Function,Dict{Any,Any}}()
+    end
+    c = haskey(memoit_cache, f) ? memoit_cache[f] : memoit_cache[f]=Dict()
+    haskey(c, p) ? c[p] : c[p] = f(p)
+end
+
+function fib2(n)
+    n <= 2 ? 1 : memoit(fib2, n-1) + memoit(fib2, n-2)
+end
+
+julia> fib2(4)
+julia> @time fib2(40)
+
+macro memo(e)
+    println("macro @memo is run: ", e, " ", e.args)
+    (!(typeof(e) <: Expr) || !(e.head == :call)) && 
+	    error("wrong @memo params")
+    return quote # we handle only functions with a single parameter
+        memoit($(esc(e.args[1])), $(esc(e.args[2])))
+    end
+end
+
+julia> function fib3(n)
+           n <= 2 ? 1 : (@memo fib3(n-1)) + (@memo fib3(n-2))
+       end
+
+julia> fib3(4)
+julia> @time fib3(40)
+
+
+function sumx1(objs...)
+     isempty(objs) && return 0 
+     total=objs[1].x
+     for i in 2:length(objs)
+         total += objs[i].x
+     end
+     total
+ end
+ 
+struct A x::Int end
+struct B x::Float64 end
+
+julia> sumx1(A(5), B(7))
+julia> sumx1(A(5), A(17))
+
+@generated function sumx2(objs...)
+    isempty(objs) && return 0 # default where no arguments were given
+    total = :(objs[1].x)
+    for i in 2:length(objs)
+        total = :($total + objs[$i].x)
+    end
+    total
+end
+
+julia> sumx2(A(5), B(7)) == sumx1(A(5), B(7))
+julia> sumx2(A(5), A(17)) == sumx1(A(5), A(17))
+
+julia> using BenchmarkTools
+julia> const valsx = ([A(i) for i=1:10]..., [B(i) for i=1:10]...);
+julia> typeof(valsx)
+
+julia> @btime sumx1(valsx...)
+julia> @btime sumx2(valsx...)
+
+
+julia> macro example(v)
+           :(($v, $(esc(v))))
+       end
+julia> function f()
+           x = 1
+           @example x
+       end
+julia> x = 10
+julia> @macroexpand @example x
+
+
+julia> n=5
+julia> macroexpand(Main, :(@memo fib3(n-1)))
+
+julia> @code_lowered sumx2(A(1), B(2))
+
+julia> @code_warntype sumx2(A(1), B(2))
+
+julia> @code_warntype sumx1(A(1), B(2))

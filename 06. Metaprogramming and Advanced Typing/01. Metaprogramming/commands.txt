@@ -1,0 +1,72 @@
+data="""
+id,val,class
+1,4,A
+2,39,B
+3,44,C
+"""
+
+function new_struct(fields::Vector{Tuple{String,DataType}})
+    name =  "A" * string(hash(fields), base=16)
+    code = "begin\nstruct $name\n"
+    for field in fields
+        code *= field[1]*"::"*string(field[2])*"\n"
+    end
+    eval(Meta.parse(code * "end\n$name\nend"))
+end
+
+julia> MyS = new_struct([("a", Int), ("b", String), ("c", Int)]);
+julia> dump(MyS)
+
+function parse_data(data::AbstractString)
+    lines = filter(x->length(x)>0, strip.(split(data, ('\n', '\r')))) 
+    colnames = string.(split(lines[1], ','))
+    row1=split(lines[2], ',')
+    coltypes = [occursin(r"^-?\d+$", val) ? Int64 : String for val in row1]
+    (lines[2:end], new_struct(collect(zip(colnames, coltypes))))
+end
+
+julia> dump(parse_data("col1,col2,col3\nabc,123,123.5")[2])
+
+function parse_text(data::AbstractString)
+    lines, MyStruct = parse_data(data)
+    res = MyStruct[]
+    for line in lines
+        colvals = split(line, ',')
+        f = (t, v)->t<:Int ? parse(Int, v) : string(v)
+        vals = f.(MyStruct.types, colvals)
+        push!(res, Base.invokelatest(MyStruct, vals...))
+    end
+    return res
+end
+
+julia> parse_text(data)
+
+
+function new_struct2(fields::Vector{Tuple{String,DataType}})
+    name =  "A" * string(hash(fields), base=16)
+    c = Expr(:block,
+             Expr(:struct,false,Symbol(name),
+                  Expr(:block, [Expr(:(::), Symbol(f[1]),
+                              f[2]) for f in fields]...)),
+             Symbol(name))
+    eval(c)
+end
+
+julia> MyS2 = new_struct2([("a", Int), ("b", String), ("c", Int)]);
+julia> dump(MyS2)
+
+julia> MyS == MyS2
+
+
+julia> dump(VERSION)
+
+julia> function f1()
+           eval(:(g1() = 10))
+           g1()
+       end
+julia> function f2()
+           eval(:(g2() = 10))
+           Base.invokelatest(g2)
+       end
+julia> f1()
+julia> f2()

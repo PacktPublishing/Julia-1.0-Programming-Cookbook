@@ -1,0 +1,8 @@
+julia> include("ll.jl")
+julia> charlist = LinkedList(Char)
+julia> pushfirst!(charlist, collect("12345")...)
+julia> collect(charlist)
+julia> charlist[1], charlist[5]
+julia> charlist[0]
+julia> charlist[6]
+julia> charlist[end]

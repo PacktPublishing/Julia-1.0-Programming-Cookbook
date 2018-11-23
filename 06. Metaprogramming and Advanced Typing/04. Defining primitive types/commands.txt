@@ -1,0 +1,11 @@
+julia> include("argb.jl")
+julia> ARGB(10,11,12,13)
+julia> c = ARGB"#12345678"
+julia> [f(c) for f in [α, red, green, blue]]
+julia> UInt32(c)
+julia> String(c)
+
+julia> zeroalpha(c::ARGB) = ARGB(UInt32(c) & 0x00FFFFFF)
+julia> c = ARGB"#12345678"
+julia> zeroalpha(c)
+julia> @code_native zeroalpha(c)

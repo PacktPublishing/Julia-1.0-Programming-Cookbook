@@ -1,0 +1,18 @@
+julia> include("quad.jl")
+julia> using BenchmarkTools
+julia> @benchmark quadratic1(1,2,3)
+julia> @benchmark quadratic2(1,2,3)
+julia> using Test
+julia> @inferred quadratic1(1,2,3)
+julia> @inferred quadratic2(1,2,3)
+julia> @code_warntype quadratic1(1,2,3)
+julia> @code_warntype quadratic2(1,2,3)
+
+
+julia> function quadratic3(a, b, c)
+           t(s,Δ) = (-b + s*sqrt(Δ))/(2a)
+           a == 0 && error("a must be different than zero")
+           Δ = Complex(b^2-4*a*c)
+           t(1,Δ), t(-1,Δ)
+       end
+julia> @benchmark quadratic3(1,2,3)

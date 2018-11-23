@@ -1,0 +1,43 @@
+julia> ]
+(v1.0) pkg> add StaticArrays
+(v1.0) pkg> add BenchmarkTools
+
+
+using StaticArrays
+using BenchmarkTools
+using Random
+
+function profit(demand, prices_sale, purchases, prices_purchase)
+    sales = min.(purchases,demand)
+    sum(sales .* prices_sale .- purchases .* prices_purchase)
+end
+
+Random.seed!(0);
+demand, prices_sale, purchases, prices_purchase = 
+    (rand(10).*100, 300:10:390, rand(10).*100, 100:10:190);
+	
+Random.seed!(0);
+demand_s, prices_sale_s, purchases_s, prices_purchase_s =
+    ((@SVector rand(10)).*100, SVector{10}(300:10:390),  
+    (@SVector rand(10)).*100, SVector{10}(100:10:190));
+	
+julia> @btime profit($demand, $prices_sale,
+                     $purchases, $prices_purchase)
+
+julia> @btime profit($demand_s, $prices_sale_s,
+                     $purchases_s, $prices_purchase_s)
+
+
+julia> a=rand(5, 5);
+julia> b=rand(5, 5);
+julia> @btime $a*$b;
+julia> as=rand(SMatrix{5,5});
+julia> bs=rand(SMatrix{5,5});
+julia> @btime $as*$bs;
+
+julia> @time m1 = rand(SMatrix{1,10});
+julia> @time m1 = rand(SMatrix{1,100});
+julia> @time m1 = rand(SMatrix{1,200});
+julia> @time m1 = rand(SMatrix{1,500});
+
+julia> @time m1 = rand(SMatrix{1,500});
