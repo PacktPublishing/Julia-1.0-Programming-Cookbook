@@ -1,0 +1,52 @@
+julia> ]
+(v1.0) pkg> add RCall
+
+julia> ENV["R_HOME"]="/new/R/installation/directory/path"
+
+(v1.0) pkg> build RCall
+
+(v1.0) pkg> add Ditributions
+(v1.0) pkg> add DateFrames
+
+R> install.packages("ggplot2")
+
+
+using RCall
+
+using Distributions
+using DataFrames
+using Random
+Random.seed!(0);
+dat = rand(MvNormal([1 0.75; 0.75 1]), 1000);
+df = DataFrame(permutedims(dat))
+
+
+julia> @rlibrary ggplot2
+julia> ggplot(df,aes(x=:x1,y=:x2)) + geom_point()
+
+
+julia> R"library(ggplot2)"
+julia> R"ggplot($df,aes(x=x1,y=x2)) + geom_point()"
+
+
+julia> $
+R> library(ggplot2)
+R> ggplot($df,aes(x=x1,y=x2)) + geom_point()
+
+
+julia> @rput df
+
+julia> R"library(ggplot2)"
+julia> R"ggplot(df,aes(x=x1,y=x2)) + geom_point()"
+
+julia> $
+R> library(ggplot2)
+R> ggplot(df,aes(x=x1,y=x2)) + geom_point()
+
+
+julia> using RCall
+julia> a = 5;
+julia> @rput a
+julia> R"b = a*2"
+julia> @rget b
+julia> b

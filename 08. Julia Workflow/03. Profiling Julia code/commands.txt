@@ -1,0 +1,46 @@
+julia> ]
+(v1.0) pkg> add ProfileView
+
+
+julia> include("profiletest.jl");
+julia> @time agg(timeto1, 1000, 10_000);  
+julia> @time agg(timeto1, 1000, 10_000);
+
+julia> @allocated agg(timeto1, 1000, 10_000)
+
+using Profile
+using ProfileView
+Profile.init(delay=0.0005)
+
+Profile.clear() 
+Profile.@profile agg(timeto1, 1000, 10_000);
+
+julia> Profile.print()
+
+julia> ProfileView.view()
+
+function timeto2(mv)
+    x = Set{Int}()
+    while true
+        push!(x, rand(1:mv))
+        1 in x && return length(x)
+    end
+end
+
+
+julia> @time agg(timeto2, 1000, 10_000);
+julia> @time agg(timeto2, 1000, 10_000);
+julia> @allocated agg(timeto2, 1000, 10_000)
+
+
+Juno.@profiler agg(timeto1, 1000, 10_000);
+
+julia> function timeto3(mv)
+    x = BitSet()
+    while true
+        push!(x, rand(1:mv))
+        1 in x && return length(x)
+    end
+end
+julia> @time agg(timeto3, 1000, 10_000);
+julia> @time agg(timeto3, 1000, 10_000);

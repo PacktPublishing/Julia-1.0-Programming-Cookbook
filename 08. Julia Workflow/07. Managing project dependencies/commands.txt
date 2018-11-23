@@ -1,0 +1,25 @@
+julia> ]
+
+(v1.0) pkg> generate Project
+julia> using StaticArrays
+julia> ]
+(v1.0) pkg> activate Project
+(Project) pkg> add StaticArrays
+julia> using StaticArrays
+julia> print(read("Project/Project.toml", String))
+julia> exit()
+
+$ julia
+
+julia> ]
+julia> using StaticArrays
+julia> ]
+(v1.0) pkg> activate Project
+julia> using StaticArrays
+
+
+julia> LOAD_PATH
+julia> using Pkg
+julia> pop!(LOAD_PATH)
+julia> LOAD_PATH
+julia> using Statistics

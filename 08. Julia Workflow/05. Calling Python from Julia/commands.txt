@@ -1,0 +1,38 @@
+julia> ENV["PYTHON"]="C:\\ProgramData\\Anaconda3\\python.exe"
+
+julia> ENV["PYTHON"]="~/anaconda3/bin/python"
+
+
+julia> ]
+(v1.0) pkg> add PyCall
+
+
+julia> ENV["PYTHON"]="/new/Python/installation/directory/path"
+
+(v1.0) pkg> build PyCall 
+
+
+$ pip install scrapy
+
+using Conda
+Conda.add("scrapy")
+
+using PyCall
+
+@pyimport scrapy.selector as ssel
+
+txt="""<html>
+    <body>
+      My favorite languages
+      <ul>
+        <li>Julia
+        <li>Python
+        <li>R
+      </ul>
+    </body>
+  </html>"""
+  
+julia> s = ssel.Selector(text=txt)
+julia> [strip(e[:extract]()) for e in s[:xpath]("//li/text()")]
+
+julia> pybuiltin("sorted")([3,2,1]) 

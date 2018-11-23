@@ -1,0 +1,25 @@
+julia> function f1(n::Integer)
+           n > 0 || error("n must be a positive number")
+           A = rand(10,10)
+           [A*rand(10) for i in 1:n]
+       end
+julia> @time f1(10^6);
+julia> @time f1(10^6);
+julia> using BenchmarkTools
+julia> @benchmark f1(10^6)
+julia> using Random
+julia> function f2(n::Integer)
+           n > 0 || error("n must be a positive number")
+           A = rand(10,10)
+           x = rand(10)
+           [A*rand!(x) for i in 1:n]
+       end
+julia> @benchmark f2(10^6)
+
+
+julia> @which f1(10^6)
+julia> @elapsed f1(10^6)
+julia> @allocated f1(10^6)
+julia> x = 10
+julia> @benchmark rand(x)
+julia> @benchmark rand($x)

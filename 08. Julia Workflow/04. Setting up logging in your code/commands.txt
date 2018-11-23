@@ -1,0 +1,36 @@
+julia> using Logging
+julia> function f(x)
+           y = Set(x)
+           for v in x
+               pop!(y, v)
+           end
+       end
+julia> f([1,2,3])
+julia> f([1,2,1,3])
+julia> function f(x)
+           y = Set(x)
+           for v in x
+               @debug v, y, (v in y)
+               pop!(y, v)
+           end
+       end
+julia> old = global_logger(ConsoleLogger(stderr, Logging.Debug));
+julia> f([1,2,1,3])
+julia> function f(x)
+           y = Set(x)
+           for v in x
+               if v in y
+                   @debug v, y, (v in y)
+                   pop!(y, v)
+               else
+                   @debug "$v not found"
+               end
+           end
+       end
+julia> f([1,2,1,3])
+julia> global_logger(old);
+julia> f([1,2,1,3])
+
+
+julia> global_logger(NullLogger())
+julia> @error "Important error"
