@@ -1,0 +1,36 @@
+julia> using DataFrames
+julia> df = DataFrame(s = categorical(["a", "b", "c"]),
+                      n = 1.0:3.0,
+                      f = [sin, cos, missing])
+julia> simpledescribe(v) = "unknown type"
+julia> simpledescribe(v::Vector{<:Number}) = "numeric"
+julia> simpledescribe(v::CategoricalArray) = "categorical"
+julia> simpledisplay(df) =
+           foreach(x -> println(x[1], ": ",
+                                simpledescribe(x[2])),
+                   eachcol(df))
+julia> simpledisplay(df)
+
+
+julia> methods(simpledescribe)
+
+
+julia> df = DataFrame(x=1:10^6);
+julia> function helper(x)
+           s = zero(eltype(x))
+           for v in x
+               s += v
+           end
+           s
+       end
+julia> function fun1(df)
+           s = zero(eltype(df[1]))
+           for v in df[1]
+               s += v
+           end
+           s
+       end
+julia> fun2(df) = helper(df[1])
+julia> using BenchmarkTools
+julia> @btime fun1(df)
+julia> @btime fun2(df)

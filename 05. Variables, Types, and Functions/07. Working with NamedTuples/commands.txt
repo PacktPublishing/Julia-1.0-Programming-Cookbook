@@ -1,0 +1,18 @@
+julia> t1 = (1, 2)
+julia> t2 = (1.0, 2)
+julia> nt1 = (a=1, b=2)
+julia> nt2 = (a=1.0, b=2)
+julia> t1 isa Tuple{Real, Int}
+julia> t2 isa Tuple{Real, Int}
+julia> nt1 isa NamedTuple{(:a, :b), Tuple{Real,Int64}}
+julia> nt2 isa NamedTuple{(:a, :b), Tuple{Real,Int64}}
+julia> nt1 isa NamedTuple{(:a, :b), Tuple{T,Int64}} where T<:Real
+julia> nt2 isa NamedTuple{(:a, :b), Tuple{T,Int64}} where T<:Real
+
+
+julia> [t1, t2]
+julia> [nt1, nt2]
+
+
+julia> foo(x; y::Integer) = (x, y)
+julia> @code_lowered foo(1, y=1)

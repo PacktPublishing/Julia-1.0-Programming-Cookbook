@@ -1,0 +1,155 @@
+julia> a, b = 1, 2;
+julia> let a=30, b=40
+           let b=500
+               println("inner scope $a $b")
+           end
+           println("outer scope $a $b")
+       end
+julia> println("global scope $a $b")
+
+julia> x=5;
+julia> let
+       println(x+1)
+       end
+julia> let
+       x = x+1
+       end
+julia> let
+       global x = x+1
+       end
+
+#this function will fail when run
+function twogram(s::AbstractString)
+    twograms = String[]    
+    for (i, c) in enumerate(s)
+        if i == 1
+            prev = c
+        else
+            push!(twograms, string(prev, c))
+            prev = c
+        end
+    end
+    twograms
+end
+
+julia> twogram("ABCD")
+
+function twogram2(s::AbstractString)
+    twograms = String[]
+    local prev
+    for (i, c) in enumerate(s)
+        if i == 1
+            prev = c
+        else
+            push!(twograms, string(prev, c))
+            prev = c
+        end
+    end
+    twograms
+end
+
+julia> twogram2("ABCD")
+
+julia> s="ABCD";
+julia> twograms = String[];
+julia> local prev
+julia> for (i, c) in enumerate(s)
+           if i == 1
+               prev = c
+           else
+               push!(twograms, string(prev, c))
+               prev = c
+           end
+       end	   
+	   
+julia> s="ABCD";
+julia> twograms = String[];
+julia> let
+           local prev
+           for (i, c) in enumerate(s)
+               if i == 1
+                   prev = c
+               else
+                   push!(twograms, string(prev, c))
+                   prev = c
+               end
+           end
+           twograms
+       end
+	   
+julia> s="ABCD";
+julia> twograms = String[];
+julia> for (i, c) in enumerate(s)
+           if i == 1
+               global prev = c
+           else
+               push!(twograms, string(prev, c))
+               global prev = c
+           end           
+       end
+julia> twograms
+
+
+module B
+    x = 1
+    function getxplusone()
+        return x+1
+    end
+    function increasex()
+        return x+=1
+    end
+    function increasexglob()
+        return global x+=1
+    end
+end
+
+julia> B.getxplusone()
+julia> B.increasex()
+julia> B.increasexglob()
+
+function f()
+    x = 1
+    for a in 1:10
+        x +=1
+    end
+    x
+end
+
+julia> f()
+
+julia> x=1;
+julia> for a in 1:10
+           x +=1
+       end
+	   
+julia> let
+           x = 1
+           for a in 1:10
+               x +=1
+            end
+            x
+        end
+
+julia> x = 1
+julia> for a in 1:10
+           global x += 1
+       end
+julia> x
+
+		
+julia> z=5;
+julia> [(x=z+i;x) for i in 1:2]
+
+julia> z = 5;
+julia> [(z=z+i;z) for i in 1:2] 
+
+julia> z = 5;
+julia> [(global z=z+i;z) for i in 1:2]
+
+julia> let state = 0
+           global counter() = (state += 1)
+       end;
+julia> counter()
+julia> counter()
+
+julia> state

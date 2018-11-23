@@ -1,0 +1,31 @@
+julia> ]
+(v1.0) pkg> add UnicodePlots
+
+
+function deriv(f::Function)::Function
+    h = √eps()
+    f1(x) = (f(x+h) - f(x))/h
+    return f1
+end
+
+using UnicodePlots
+f(x) = 2x*x + 5x - 4;
+x = -5:3;
+
+plot = lineplot(x, f.(x), width=45, height=15, canvas=DotCanvas, name="f(x)");
+plot = lineplot!(plot, x, deriv(f).(x), name="f'(x)")
+
+function q_solve(f)
+    c = f(0)
+    f1 = deriv(f)
+    b = f1(0)
+    a = f(1)-b-c
+    d = √(b*b-4*a*c)
+    return ((-b-d)/(2*a),(-b+d)/(2*a))
+end
+
+julia> q_solve(x -> (x-1)*(x+7))
+
+julia> q_solve(x -> x*x + 1)
+
+julia> q_solve(x -> x*x + 1 + 0im)

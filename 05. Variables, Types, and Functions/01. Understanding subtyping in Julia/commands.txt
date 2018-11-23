@@ -1,0 +1,52 @@
+julia> struct Point{T<:Integer, S<:AbstractString}
+           pos::Complex{T}
+           label::S
+       end
+julia> Point(x::T, y::T, label::S) where {T<:Integer,
+                                          S<:AbstractString} =
+           Point{T,S}(Complex(x,y), label)
+julia> Point(x, y, label) = Point(promote(Integer.((x,y))...)...,
+                                  label)
+julia> p1 = Point(1, 0, "1")
+julia> p2 = Point(1, 0, SubString("1", 1))
+julia> p3 = Point(true, false, "1")
+julia> p4 = Point(2, 0, "2")
+julia> [p1, p2, p3, p4]
+julia> [p1, p2]
+julia> [p1, p3]
+julia> [p1, p4]
+julia> sumpoint1(v::AbstractVector{Point}) =
+           Point(sum(p.pos for p in v), "")
+julia> sumpoint1([p1, p2])
+julia> sumpoint2(v::AbstractVector{<:Point}) =
+           Point(sum(p.pos for p in v), "")
+julia> sumpoint2([p1, p2])
+julia> foo(p::Point) = "generic definition"
+julia> foo(p::Point{Int, <:AbstractString}) = "default Int passed"
+julia> foo(p::Point{<:Integer, String}) = "default String passed"
+julia> foo(Point(true, true, s"12"))
+julia> foo(Point(1, 1, s"12"))
+julia> foo(Point(true, true, "12"))
+julia> foo(Point(1, 1, "12"))
+julia> foo(p::Point{Int, String}) = "most specific method"
+julia> foo(Point(1, 1, "12"))
+
+
+julia> push!([p1], p2)
+julia> push!(Point[p1], p2)
+julia> Int <: Integer
+julia> Point{Int, String} <: Point{Integer, String}
+julia> Point{Int, String} <: Point{<:Integer, String}
+julia> Point{Int, String} <: Point{T, String} where T<:Integer
+julia> Point{Int}
+julia> Point{<:Signed, String}
+julia> Point{Int}{String}
+julia> Point{Int, String}
+julia> sumpoint1(Point[p1, p2])
+
+
+julia> methods(foo)
+julia> Tuple{Point{Int, String}, Point{Bool, SubString{String}}} <: Tuple{Point{Int}, Point}
+julia> sumpoint_tuple(v::Tuple{Vararg{Point}}) =
+           Point(sum(p.pos for p in v), "")
+julia> sumpoint_tuple((p1, p2, p3))

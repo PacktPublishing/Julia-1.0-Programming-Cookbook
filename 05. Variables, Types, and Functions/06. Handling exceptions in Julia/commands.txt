@@ -1,0 +1,101 @@
+function loglines(filename, lines...)
+    f = open(filename, "a")
+    foreach(line -> (println(f, line)),lines)
+    sqrt(-2)
+    close(f)
+end
+
+julia> loglines("mylog.txt", "Test log:")
+
+julia> try
+           loglines("mylog.txt", "Test log:")
+       catch e
+           dump(e)
+       end
+	   
+for i in 1:100_000
+   try 
+       loglines("mylog2.txt", string(i))
+   catch
+   end
+end
+
+julia> f = open("mylog2.txt")
+
+julia> close()
+
+function loglines2(filename, lines...)
+    f = open(filename, "a")
+    try 
+        foreach(line -> println(f, line),lines)
+        sqrt(-2)
+    finally
+        close(f)
+    end
+end
+
+julia> loglines2("mylog3.txt", "Test log:")
+
+open("mylog3.txt", "w") do f end  #make sure the file is empty
+for i in 1:100_000
+    try
+        loglines2("mylog3.txt", string(i))
+    catch e
+        if !(e isa DomainError)
+            rethrow(e)
+        end            
+    end
+end
+
+julia> lines = open("mylog3.txt") do f 
+           readlines(f)
+       end;
+
+julia> all([lines[i]==string(i) for i in 1:100_000])
+
+
+julia> function ff(a)
+           res = missing
+           try
+               res = sqrt(a)
+           finally
+               return res
+           end
+       end;
+
+julia> ff(4)
+julia> ff(-2)
+
+function divide(a, b)
+    b == 0 && @warn "Division by zero" 
+    a/b
+end
+
+julia> divide(3, 5)
+julia> divide(3, 0)
+
+function divide2(a, b)
+    b == zero(typeof(b)) && @error "Division by zero"
+    a/b
+end
+
+julia> divide2(3, 0)
+
+function divide3(a, b)
+    if b == zero(typeof(b))
+        @error "Division by zero"
+        throw(ErrorException("Division by zero"))
+    end
+    a/b
+end
+
+julia> divide3(3, 0)
+
+julia> subtypes(Exception)
+
+julia> struct MyException <: Exception
+           msg::String
+       end
+julia> throw(MyException("something went wrong"))
+
+

@@ -1,0 +1,36 @@
+using Random
+Random.seed!(0);
+
+
+mutable struct Agent
+    id::Int
+    x::Float64
+    y::Float64
+    times_moved::Int
+end
+
+function move!(agent::Agent)
+    angle = rand()*2π
+    agent.x += cos(angle)
+    agent.y += sin(angle)
+    agent.times_moved += 1    
+end
+
+pop = Agent.(1:30, 0, 0, 0) 
+
+function step!(pop::Array{Agent,1})
+    sort!(pop, by = a -> √(a.x*a.x + a.y*a.y), rev=true) 
+    foreach(i -> (rand() < (1/i)) && move!(pop[i]), 1:length(pop))
+end
+
+foreach(s -> step!(pop), 1:1000)
+
+julia> filter(a -> √(a.x*a.x + a.y*a.y) >= 25, pop)
+
+
+julia> pop = fill(Agent(1, 0.0, 0.0, 0), 3)
+julia> pop[2].id = 2
+julia> pop
+
+
+julia> pop=[Agent(i, 0.0, 0.0, 0) for i in 1:3]
