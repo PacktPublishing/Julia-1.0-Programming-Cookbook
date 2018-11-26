@@ -39,7 +39,8 @@ pkg1 = [(name="StatsBase", version="0.26.0"),
         (name="OnlineStats", version="0.19.1"),
         (name="MySQL", version="0.7.0"),
         (name="Cascadia", version="0.4.0"),
-        (name="UnicodePlots", version="0.3.1")]
+        (name="UnicodePlots", version="0.3.1"),
+        (name="ParallelDataTransfer", version="0.5.0")]
 
 foreach(addandpin, pkg1)
 
