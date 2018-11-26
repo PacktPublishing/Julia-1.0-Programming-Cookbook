@@ -60,6 +60,7 @@ julia> Date(2008, 1, 31) + (Month(1) - Month(1))
 julia> ]
 (v1.0) pkg> add TimeZones
 
+using TimeZones
 
 julia> dtz = parse(ZonedDateTime, "2017-11-14 11:03:53 +0100",
                    dateformat"yyyy-mm-dd HH:MM:SS zzzzz")
