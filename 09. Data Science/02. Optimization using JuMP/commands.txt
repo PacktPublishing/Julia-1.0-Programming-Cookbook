@@ -24,7 +24,7 @@ julia> println(m)
 
 julia> status = solve(m)
 
-julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))
+julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))\nx₂=$(getvalue(x₂))")
 
 
 using JuMP
@@ -38,7 +38,7 @@ m = Model(solver = CbcSolver());
 @constraint(m, 9x₁   +   11x₂ >=   60)
 
 julia> status = solve(m)
-julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))
+julia> println("Cost: $(getobjectivevalue(m))\nx₁=$(getvalue(x₁))\nx₂=$(getvalue(x₂))")
 
 
 julia> status = solve(m)
