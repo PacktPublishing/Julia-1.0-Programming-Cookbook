@@ -6,6 +6,6 @@ julia> @benchmark simI2()
 julia> @benchmark simM2()
 
 
-julia> include("worker.jl")
+julia> include("work.jl")
 julia> @benchmark worker1()
 julia> @benchmark worker2()
