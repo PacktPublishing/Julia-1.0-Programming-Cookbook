@@ -8,7 +8,8 @@ end
 # packages without external dependencies
 # that have to be manually instlled
 
-pkg1 = [(name="TimeZones", version="0.8.1"),
+pkg1 = [(name="StatsBase", version="0.26.0"),
+        (name="TimeZones", version="0.8.1"),
         (name="BSON", version="0.2.1"),
         (name="Revise", version="0.7.12"),
         (name="Distributions", version="0.16.4"),
