@@ -114,7 +114,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 ## Get to Know the Author
 **Bogumil Kaminski**
-(GitHub username: bkamins) is an associate professor and head of the
+([GitHub](https://github.com/bkamins), [web](http://bogumilkaminski.pl/about/)) is an associate professor and head of the
 Decision Support and Analysis Unit at the SGH Warsaw School of Economics, as well as
 adjunct professor at the data science laboratory, Ryerson University, Toronto. He is coeditor
 of the Central European Journal of Economic Modeling and Econometrics, and of the
@@ -125,7 +125,7 @@ deployment of large-scale advanced analytics solutions for industry and public
 administration
 
 **Przemyslaw Szufel**
-(GitHub username: pszufe, web: szufel.pl) is an assistant professor in
+([GitHub](https://github.com/pszufe), [web](https://szufel.pl/en_aboutme.html)) is an assistant professor in
 the Decision Support and Analysis Unit at the SGH Warsaw School of Economics. His
 current research focuses on distributed systems and methods for the execution of largescale
 simulations for numerical experiments and optimization. He is working on
@@ -136,5 +136,3 @@ open source tools for high-performance and numerical simulation
 
 ### Suggestions and Feedback
 [Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
-
-
