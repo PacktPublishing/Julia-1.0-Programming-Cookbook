@@ -44,48 +44,48 @@ In this book we use Julia 1.0.1, however, the presented recipes should work with
 The following Julia packages have been used throughout the book. We provide a version number of each package that has been tested with the recipes in the book. Some of the packages on this list are being currently quickly developed and if you use the latest package version in some cases a recipe might not work due to API changes.
 
 
-| # | Package | Software required | OS required |
-| -------- | ------------------------------------ | ----------------------------------- |
-| 1 | BSON | Windows, Mac OS X, and Linux (Any) |
-| 2 |  | Windows, Mac OS X, and Linux (Any) |
-| 3 |  | Windows, Mac OS X, and Linux (Any) |
-| 4 |  | Windows, Mac OS X, and Linux (Any) |
-| 5 |  | Windows, Mac OS X, and Linux (Any) |
-| 6 |  | Windows, Mac OS X, and Linux (Any) |
-| 7 |  | Windows, Mac OS X, and Linux (Any) |
-| 8 |  | Windows, Mac OS X, and Linux (Any) |
-| 9 |  | Windows, Mac OS X, and Linux (Any) |
-| 10 |  | Windows, Mac OS X, and Linux (Any) |
-| 11 |  | Windows, Mac OS X, and Linux (Any) |
-| 12 |  | Windows, Mac OS X, and Linux (Any) |
-| 13 |  | Windows, Mac OS X, and Linux (Any) |
-| 14 |  | Windows, Mac OS X, and Linux (Any) |
-| 15 |  | Windows, Mac OS X, and Linux (Any) |
-| 16 |  | Windows, Mac OS X, and Linux (Any) |
-| 17 |  | Windows, Mac OS X, and Linux (Any) |
-| 18 |  | Windows, Mac OS X, and Linux (Any) |
-| 19 |  | Windows, Mac OS X, and Linux (Any) |
-| 20 |  | Windows, Mac OS X, and Linux (Any) |
-| 21 |  | Windows, Mac OS X, and Linux (Any) |
-| 22 |  | Windows, Mac OS X, and Linux (Any) |
-| 23 |  | Windows, Mac OS X, and Linux (Any) |
-| 24 |  | Windows, Mac OS X, and Linux (Any) |
-| 25 |  | Windows, Mac OS X, and Linux (Any) |
-| 26 |  | Windows, Mac OS X, and Linux (Any) |
-| 27 |  | Windows, Mac OS X, and Linux (Any) |
-| 28 |  | Windows, Mac OS X, and Linux (Any) |
-| 29 |  | Windows, Mac OS X, and Linux (Any) |
-| 30 |  | Windows, Mac OS X, and Linux (Any) |
-| 31 |  | Windows, Mac OS X, and Linux (Any) |
-| 32 |  | Windows, Mac OS X, and Linux (Any) |
-| 33 |  | Windows, Mac OS X, and Linux (Any) |
-| 34 |  | Windows, Mac OS X, and Linux (Any) |
-| 35 |  | Windows, Mac OS X, and Linux (Any) |
-| 36 |  | Windows, Mac OS X, and Linux (Any) |
-| 37 |  | Windows, Mac OS X, and Linux (Any) |
-| 38 |  | Windows, Mac OS X, and Linux (Any) |
-| 39 |  | Windows, Mac OS X, and Linux (Any) |
-| 40 |  | Windows, Mac OS X, and Linux (Any) |
+| Package  | Version                 | External Dependency                        |
+| -------- | -------- | ------------------------------------| 
+| BSON | v"0.2.1"  | Windows, Mac OS X, and Linux (Any) |
+| BenchmarkTools |v"0.4.1"  | Windows, Mac OS X, and Linux (Any) |
+| CSV | v"0.4.3" | Windows, Mac OS X, and Linux (Any) |
+| Cascadia |v"0.4.0"   | Windows, Mac OS X, and Linux (Any) |
+| Cbc | v"0.4.2" | Windows, Mac OS X, and Linux (Any) |
+| Clp |v"0.5.0" | Windows, Mac OS X, and Linux (Any) |
+| CodecZib | v"0.5.0" | Windows, Mac OS X, and Linux (Any) |
+| Conda |  | Windows, Mac OS X, and Linux (Any) |
+| DataFrames |  | Windows, Mac OS X, and Linux (Any) |
+| DataFramesMeta |  | Windows, Mac OS X, and Linux (Any) |
+| Distributions |  | Windows, Mac OS X, and Linux (Any) |
+| Feather |  | Windows, Mac OS X, and Linux (Any) |
+| FileIO |  | Windows, Mac OS X, and Linux (Any) |
+| ForwardDiff |  | Windows, Mac OS X, and Linux (Any) |
+| FreqTables |  | Windows, Mac OS X, and Linux (Any) |
+| Gumbo |  | Windows, Mac OS X, and Linux (Any) |
+| Gurobi |  | Windows, Mac OS X, and Linux (Any) |
+| HTTP |  | Windows, Mac OS X, and Linux (Any) |
+| JDBC |  | Windows, Mac OS X, and Linux (Any) |
+| JLD2 |  | Windows, Mac OS X, and Linux (Any) |
+| JSON |  | Windows, Mac OS X, and Linux (Any) |
+| JuMP |  | Windows, Mac OS X, and Linux (Any) |
+| JuliaWebAPI |  | Windows, Mac OS X, and Linux (Any) |
+| LibPQ |  | Windows, Mac OS X, and Linux (Any) |
+| MySQL |  | Windows, Mac OS X, and Linux (Any) |
+| OnlineStats |  | Windows, Mac OS X, and Linux (Any) |
+| Optim |  | Windows, Mac OS X, and Linux (Any) |
+| Plots |  | Windows, Mac OS X, and Linux (Any) |
+| ProfileView |  | Windows, Mac OS X, and Linux (Any) |
+| PyCall |  | Windows, Mac OS X, and Linux (Any) |
+| PyPlot |  | Windows, Mac OS X, and Linux (Any) |
+| RCall |  | Windows, Mac OS X, and Linux (Any) |
+| Revise |  | Windows, Mac OS X, and Linux (Any) |
+| StatPlots |  | Windows, Mac OS X, and Linux (Any) |
+| StaticArrays |  | Windows, Mac OS X, and Linux (Any) |
+| StringEncodings |  | Windows, Mac OS X, and Linux (Any) |
+| TimeZones |  | Windows, Mac OS X, and Linux (Any) |
+| UnicodePlots |  | Windows, Mac OS X, and Linux (Any) |
+| XLSX |  | Windows, Mac OS X, and Linux (Any) |
+| ZMQ |  | Windows, Mac OS X, and Linux (Any) |
 | 41 |  | Windows, Mac OS X, and Linux (Any) |
 | 42 |  | Windows, Mac OS X, and Linux (Any) |
 | 43 |  | Windows, Mac OS X, and Linux (Any) |
@@ -114,7 +114,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 ## Get to Know the Author
 **Bogumil Kaminski**
-([GitHub](https://github.com/bkamins), [web](http://bogumilkaminski.pl/about/)) is an associate professor and head of the
+(GitHub username: bkamins) is an associate professor and head of the
 Decision Support and Analysis Unit at the SGH Warsaw School of Economics, as well as
 adjunct professor at the data science laboratory, Ryerson University, Toronto. He is coeditor
 of the Central European Journal of Economic Modeling and Econometrics, and of the
@@ -125,7 +125,7 @@ deployment of large-scale advanced analytics solutions for industry and public
 administration
 
 **Przemyslaw Szufel**
-([GitHub](https://github.com/pszufe), [web](https://szufel.pl/en_aboutme.html)) is an assistant professor in
+(GitHub username: pszufe, web: szufel.pl) is an assistant professor in
 the Decision Support and Analysis Unit at the SGH Warsaw School of Economics. His
 current research focuses on distributed systems and methods for the execution of largescale
 simulations for numerical experiments and optimization. He is working on
@@ -136,3 +136,5 @@ open source tools for high-performance and numerical simulation
 
 ### Suggestions and Feedback
 [Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
+
+
