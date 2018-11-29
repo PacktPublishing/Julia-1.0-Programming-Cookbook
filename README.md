@@ -79,7 +79,7 @@ The following Julia packages have been used throughout the book. We provide a ve
 | PyPlot | v"2.6.3" | optional - external Python Anaconda |
 | RCall | v"0.12.1" | GNU R |
 | Revise |v"0.7.12"  | none |
-| ScikitLearn | latest available | scikit-learn + optional - external Python Anaconda |
+| ScikitLearn | latest available | optional - external Python Anaconda + Anaconda scikit-learn library |
 | StatPlots |v"0.8.1"  | optional - external Python Anaconda (with PyPlot plotting backend) |
 | StaticArrays |v"0.8.3"  | none |
 | StatsBase" | v"0.26.0" | none |
