@@ -37,7 +37,7 @@ if isless(curval, minval)
 **Following is what you need for this book:**
 This book is for developers who would like to enhance their Julia programming skills and would like to get some quick solutions to their common programming problems. Basic Julia programming knowledge is assumed.
 
-With the following software and hardware list you can run all code files present in the book (Chapter 1-).
+With the following software and hardware list you can run all code files present in the book (Chapter 01-10).
 ### Software and Hardware List
 In this book we use Julia 1.0.1, however, the presented recipes should work without any problem with any future Julia 1.0.x version.
 
