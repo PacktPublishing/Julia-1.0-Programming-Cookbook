@@ -73,13 +73,16 @@ The following Julia packages have been used throughout the book. We provide a ve
 | OnlineStats |v"0.19.1"  | none |
 | Optim | v"0.17.1" | none |
 | Plots | v"0.20.5" | optional - external Python Anaconda (with PyPlot plotting backend) |
+| ParallelDataTransfer | v"0.5.0" | none |
 | ProfileView | v"0.4.0" | none |
 | PyCall | v"1.18.4" | optional - external Python Anaconda |
 | PyPlot | v"2.6.3" | optional - external Python Anaconda |
 | RCall | v"0.12.1" | GNU R |
 | Revise |v"0.7.12"  | none |
+| ScikitLearn | latest available | scikit-learn + optional - external Python Anaconda |
 | StatPlots |v"0.8.1"  | optional - external Python Anaconda (with PyPlot plotting backend) |
 | StaticArrays |v"0.8.3"  | none |
+| StatsBase" | v"0.26.0" | none |
 | StringEncodings |v"0.3.1"  | none |
 | TimeZones | v"0.8.1" | none |
 | UnicodePlots |v"0.3.1"  | none |
