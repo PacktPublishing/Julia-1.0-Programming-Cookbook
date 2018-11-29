@@ -10,13 +10,12 @@ This is the code repository for [Julia 1.0 Programming Cookbook](https://www.pac
 Julia programming language with its dynamic nature and high-performance provides comparatively minimum time for development of computational models with easy to maintain computational code. Julia 1.0 Programming Cookbook will be your solution based guide as it will take you through different programming aspects with Julia.
 
 This book covers the following exciting features:
-Boost the code performance using Julia’s unique features 
-Organize data in fundamental types of collections: arrays, dictionaries 
-Organize data science process within Julia and solve related problems 
-Scale Julia computations with cloud computing 
-Write data to IO streams with Julia and to handle web transfer 
-How to define own immutable and mutable types 
-Speed-up the development process using metaprogramming 
+* Boost the code performance using Julia’s unique features 
+* Organize data in fundamental types of collections: arrays, dictionaries 
+* Organize data science process within Julia and solve related problems 
+* Scale Julia computations with cloud computing 
+* Write data to IO streams with Julia and to handle web transfer 
+
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788998367) today!
 
@@ -87,13 +86,14 @@ The following Julia packages have been used throughout the book. We provide a ve
 | XLSX | v"0.4.2" | none |
 | ZMQ | v"1.0.0" | none |
 
-For each package we provide the information whether it depends on external software installations. Some package have no external dependencies while other require installation of external tools such as GNU R, database drivers or Java virtual machine. Detailed instructions can be found in the recipes that use particular packages (for example, the recipe Calling R from Julia in the Chapter 8, Julia Workflow shows how to configure RCall while the recipe Working with databases in Julia in the Chapter 9, Data Science explains the installation process of various database drivers).
+For each package we provide the information whether it depends on external software installations. Some package have no external dependencies while other require installation of external tools such as GNU R, database drivers or Java virtual machine. Detailed instructions can be found in the recipes that use particular packages (for example, the recipe *Calling R from Julia* in the Chapter 8, *Julia Workflow* shows how to configure RCall while the recipe *Working with databases in Julia* in the Chapter 9, *Data Science* explains the installation process of various database drivers).
 
-A noteworthy case is the Python dependency. Several important Julia packages depend on Python functionality that is provided via the PyCall.jl package. Note that for those packages (having the status optional  at our table) you have two options:
+A noteworthy case is the Python dependency. Several important Julia packages depend on Python functionality that is provided via the PyCall.jl package. Note that for those packages (having the status **optional**  at our table) you have two options:
 
-use Python Anaconda installed inside of Julia (in this case no installation of external dependencies is required)
-external Python Anaconda installation outside of Julia (the user needs to install and configure Python Anaconda to work with Julia)
-Note that in this book all Python-dependent recipes use Python 3.6.5.  In the recipe Calling Python from Julia in Chapter 8, Julia Workflow we discuss in detail various options for configuring the PyCall.jl package for Julia-to-Python integration.
+* Use Python Anaconda installed inside of Julia (in this case no installation of external dependencies is required)
+* external Python Anaconda installation outside of Julia (the user needs to install and configure Python Anaconda to work with Julia)
+
+Note that in this book all Python-dependent recipes use Python 3.6.5.  In the recipe *Calling Python from Julia* in Chapter 8, *Julia Workflow* we discuss in detail various options for configuring the PyCall.jl package for Julia-to-Python integration.
 
 
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781788998369_ColorImages.pdf).
