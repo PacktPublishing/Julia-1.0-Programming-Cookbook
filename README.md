@@ -110,7 +110,7 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 
 ## Get to Know the Author
-**Bogumil Kaminski**
+**Bogumił Kamiński**
 (GitHub username: bkamins) is an associate professor and head of the
 Decision Support and Analysis Unit at the SGH Warsaw School of Economics, as well as
 adjunct professor at the data science laboratory, Ryerson University, Toronto. He is coeditor
@@ -121,7 +121,7 @@ simulation, optimization, and prediction methods. He also has 15+ years' experie
 deployment of large-scale advanced analytics solutions for industry and public
 administration
 
-**Przemyslaw Szufel**
+**Przemysław Szufel**
 (GitHub username: pszufe, web: szufel.pl) is an assistant professor in
 the Decision Support and Analysis Unit at the SGH Warsaw School of Economics. His
 current research focuses on distributed systems and methods for the execution of largescale
