@@ -46,51 +46,46 @@ The following Julia packages have been used throughout the book. We provide a ve
 
 | Package  | Version                 | External Dependency                        |
 | -------- | -------- | ------------------------------------| 
-| BSON | v"0.2.1"  | Windows, Mac OS X, and Linux (Any) |
-| BenchmarkTools |v"0.4.1"  | Windows, Mac OS X, and Linux (Any) |
-| CSV | v"0.4.3" | Windows, Mac OS X, and Linux (Any) |
-| Cascadia |v"0.4.0"   | Windows, Mac OS X, and Linux (Any) |
-| Cbc | v"0.4.2" | Windows, Mac OS X, and Linux (Any) |
-| Clp |v"0.5.0" | Windows, Mac OS X, and Linux (Any) |
-| CodecZib | v"0.5.0" | Windows, Mac OS X, and Linux (Any) |
-| Conda |  | Windows, Mac OS X, and Linux (Any) |
-| DataFrames |  | Windows, Mac OS X, and Linux (Any) |
-| DataFramesMeta |  | Windows, Mac OS X, and Linux (Any) |
-| Distributions |  | Windows, Mac OS X, and Linux (Any) |
-| Feather |  | Windows, Mac OS X, and Linux (Any) |
-| FileIO |  | Windows, Mac OS X, and Linux (Any) |
-| ForwardDiff |  | Windows, Mac OS X, and Linux (Any) |
-| FreqTables |  | Windows, Mac OS X, and Linux (Any) |
-| Gumbo |  | Windows, Mac OS X, and Linux (Any) |
-| Gurobi |  | Windows, Mac OS X, and Linux (Any) |
-| HTTP |  | Windows, Mac OS X, and Linux (Any) |
-| JDBC |  | Windows, Mac OS X, and Linux (Any) |
-| JLD2 |  | Windows, Mac OS X, and Linux (Any) |
-| JSON |  | Windows, Mac OS X, and Linux (Any) |
-| JuMP |  | Windows, Mac OS X, and Linux (Any) |
-| JuliaWebAPI |  | Windows, Mac OS X, and Linux (Any) |
-| LibPQ |  | Windows, Mac OS X, and Linux (Any) |
-| MySQL |  | Windows, Mac OS X, and Linux (Any) |
-| OnlineStats |  | Windows, Mac OS X, and Linux (Any) |
-| Optim |  | Windows, Mac OS X, and Linux (Any) |
-| Plots |  | Windows, Mac OS X, and Linux (Any) |
-| ProfileView |  | Windows, Mac OS X, and Linux (Any) |
-| PyCall |  | Windows, Mac OS X, and Linux (Any) |
-| PyPlot |  | Windows, Mac OS X, and Linux (Any) |
-| RCall |  | Windows, Mac OS X, and Linux (Any) |
-| Revise |  | Windows, Mac OS X, and Linux (Any) |
-| StatPlots |  | Windows, Mac OS X, and Linux (Any) |
-| StaticArrays |  | Windows, Mac OS X, and Linux (Any) |
-| StringEncodings |  | Windows, Mac OS X, and Linux (Any) |
-| TimeZones |  | Windows, Mac OS X, and Linux (Any) |
-| UnicodePlots |  | Windows, Mac OS X, and Linux (Any) |
-| XLSX |  | Windows, Mac OS X, and Linux (Any) |
-| ZMQ |  | Windows, Mac OS X, and Linux (Any) |
-| 41 |  | Windows, Mac OS X, and Linux (Any) |
-| 42 |  | Windows, Mac OS X, and Linux (Any) |
-| 43 |  | Windows, Mac OS X, and Linux (Any) |
-| 44 |  | Windows, Mac OS X, and Linux (Any) |
-| 45 |  | Windows, Mac OS X, and Linux (Any) |
+| BSON | v"0.2.1"  | none |
+| BenchmarkTools |v"0.4.1"  | none |
+| CSV | v"0.4.3" | none |
+| Cascadia |v"0.4.0"   | none |
+| Cbc | v"0.4.2" | none |
+| Clp |v"0.5.0" | none |
+| CodecZib | v"0.5.0" | none |
+| Conda | v"1.0.2" | optional - external Python Anaconda |
+| DataFrames | v"0.14.1" | none |
+| DataFramesMeta | v"0.4.0" | none |
+| Distributions | v"0.16.4" | none |
+| Feather | v"0.5.0" | none |
+| FileIO | v"1.0.2" | none |
+| ForwardDiff |v"0.9.9"  | none |
+| FreqTables |v"0.3.0"  | none |
+| Gumbo | v"0.5.1" | none |
+| Gurobi | v"0.5.3" | Gurobi Solver |
+| HTTP | v"0.7.1" | none |
+| JDBC | v"0.4.0" | Java Runtime Environment |
+| JLD2 | v"0.1.2" | none |
+| JSON |v"0.19.0"  | none |
+| JuMP | v"0.18.4" | none |
+| JuliaWebAPI |v"0.5.0"  | none |
+| LibPQ |v"0.5.0"  | PostgreSQL libpq library |
+| MySQL | v"0.7.0" | none |
+| OnlineStats |v"0.19.1"  | Windows, Mac OS X, and Linux (Any) |
+| Optim | v"0.17.1" | none |
+| Plots | v"0.20.5" | optional - external Python Anaconda (with PyPlot plotting backend) |
+| ProfileView | v"0.4.0" | none |
+| PyCall | v"1.18.4" | optional - external Python Anaconda |
+| PyPlot | v"2.6.3" | optional - external Python Anaconda |
+| RCall | v"0.12.1" | GNU R |
+| Revise |v"0.7.12"  | none |
+| StatPlots |v"0.8.1"  | optional - external Python Anaconda (with PyPlot plotting backend) |
+| StaticArrays |v"0.8.3"  | none |
+| StringEncodings |v"0.3.1"  | none |
+| TimeZones | v"0.8.1" | none |
+| UnicodePlots |v"0.3.1"  | none |
+| XLSX | v"0.4.2" | none |
+| ZMQ | v"1.0.0" | none |
 
 For each package we provide the information whether it depends on external software installations. Some package have no external dependencies while other require installation of external tools such as GNU R, database drivers or Java virtual machine. Detailed instructions can be found in the recipes that use particular packages (for example, the recipe Calling R from Julia in the Chapter 8, Julia Workflow shows how to configure RCall while the recipe Working with databases in Julia in the Chapter 9, Data Science explains the installation process of various database drivers).
 
