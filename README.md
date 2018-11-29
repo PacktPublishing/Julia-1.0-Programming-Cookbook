@@ -108,9 +108,6 @@ We also provide a PDF file that has color images of the screenshots/diagrams use
 
 * Hands-On Computer Vision with Julia [[Packt]](https://www.packtpub.com/application-development/hands-computer-vision-julia?utm_source=github&utm_medium=repository&utm_campaign=9781788998796 ) [[Amazon]](https://www.amazon.com/dp/B07CSPBV11)
 
-*  [[Packt]]() [[Amazon]](https://www.amazon.com/dp/)
-
-*  [[Packt]]() [[Amazon]](https://www.amazon.com/dp/)
 
 ## Get to Know the Author
 **Bogumil Kaminski**
