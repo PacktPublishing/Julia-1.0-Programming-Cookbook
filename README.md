@@ -70,7 +70,7 @@ The following Julia packages have been used throughout the book. We provide a ve
 | JuliaWebAPI |v"0.5.0"  | none |
 | LibPQ |v"0.5.0"  | PostgreSQL libpq library |
 | MySQL | v"0.7.0" | none |
-| OnlineStats |v"0.19.1"  | Windows, Mac OS X, and Linux (Any) |
+| OnlineStats |v"0.19.1"  | none |
 | Optim | v"0.17.1" | none |
 | Plots | v"0.20.5" | optional - external Python Anaconda (with PyPlot plotting backend) |
 | ProfileView | v"0.4.0" | none |
