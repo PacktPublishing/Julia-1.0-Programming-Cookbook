@@ -22,6 +22,9 @@ If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788
 <a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
 alt="https://www.packtpub.com/" border="5" /></a>
 
+## Book Supplement
+Following the feedback of our readers we have created a [Supplement]( https://github.com/PacktPublishing/Julia-1.0-Programming-Cookbook/blob/master/Julia_Cookbook-Supplement.md) that discusses Julia installation and configuration issues related to macOS.
+
 ## Instructions and Navigations
 All of the code is organized into folders. For example, Chapter02. The example code files are organized in folders representing chapters and recipes. For each recipe, there is a commands.txt file that contains commands that should be typed-in by the reader. Every entry in this file is prepended by an appropriate prompt (example, **$**, **julia>**) to make sure that the user knows in which environment the command should be executed (typically the OS shell, the Julia command line). Most recipes also contain additional files, for example, source codes of Julia programs. A full list of files along with their contents is given in the *Getting ready* section of every recipe
 
