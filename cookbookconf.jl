@@ -51,7 +51,7 @@ pkg2 = [(name="Conda", version="1.0.2"),
         (name="PyCall", version="1.18.4"),
         (name="PyPlot", version="2.6.3"),
         (name="Plots", version="0.20.5"),
-        (name="StatPlots", version="0.8.1")]
+        (name="StatsPlots", version="0.8.1")]
 
 foreach(addandpin, pkg2)
 

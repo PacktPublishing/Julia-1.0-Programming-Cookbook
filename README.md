@@ -10,17 +10,25 @@ This is the code repository for [Julia 1.0 Programming Cookbook](https://www.pac
 Julia programming language with its dynamic nature and high-performance provides comparatively minimum time for development of computational models with easy to maintain computational code. Julia 1.0 Programming Cookbook will be your solution based guide as it will take you through different programming aspects with Julia.
 
 This book covers the following exciting features:
-* Boost the code performance using Julia’s unique features 
-* Organize data in fundamental types of collections: arrays, dictionaries 
-* Organize data science process within Julia and solve related problems 
-* Scale Julia computations with cloud computing 
-* Write data to IO streams with Julia and to handle web transfer 
+* Boost the code performance using Julia’s unique features
+* Organize data in fundamental types of collections: arrays, dictionaries
+* Organize data science process within Julia and solve related problems
+* Scale Julia computations with cloud computing
+* Write data to IO streams with Julia and to handle web transfer
 
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788998367) today!
 
-<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
+<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png"
 alt="https://www.packtpub.com/" border="5" /></a>
+
+## Release history
+
+* [Version 1.0](https://github.com/PacktPublishing/Julia-1.0-Programming-Cookbook/releases/tag/v1.0):
+    * An initial release with source codes exactly as in the printed version of the first edition of the book.
+* [Version 1.1](https://github.com/PacktPublishing/Julia-1.0-Programming-Cookbook/releases/tag/v1.1):
+    * The package StatPlots.jl was renamed by its maintainers to StatsPlots.jl; this release updates the codes to reflect this change.
+    * The `allargmin` function from chapter 2, recipe 1 was fixed to correctly handle the case when it is passed an empty collection.
 
 ## Book Supplement
 Following the feedback of our readers we have created a [Supplement]( https://github.com/PacktPublishing/Julia-1.0-Programming-Cookbook/blob/master/Julia_Cookbook-Supplement.md) that discusses Julia installation and configuration issues related to macOS.
@@ -31,7 +39,7 @@ All of the code is organized into folders. For example, Chapter02. The example c
 The code will look like the following:
 ```
 if isless(curval, minval)
-    minval = curval 
+    minval = curval
     bestidx = idx
     bestcount = 1
 ```
@@ -47,7 +55,7 @@ The following Julia packages have been used throughout the book. We provide a ve
 
 
 | Package  | Version                 | External Dependency                        |
-| -------- | -------- | ------------------------------------| 
+| -------- | -------- | ------------------------------------|
 | BSON | v"0.2.1"  | none |
 | BenchmarkTools |v"0.4.1"  | none |
 | CSV | v"0.4.3" | none |
@@ -83,7 +91,7 @@ The following Julia packages have been used throughout the book. We provide a ve
 | RCall | v"0.12.1" | GNU R |
 | Revise |v"0.7.12"  | none |
 | ScikitLearn | latest available | optional - external Python Anaconda + Anaconda scikit-learn library |
-| StatPlots |v"0.8.1"  | optional - external Python Anaconda (with PyPlot plotting backend) |
+| StatsPlots |v"0.8.1"  | optional - external Python Anaconda (with PyPlot plotting backend) |
 | StaticArrays |v"0.8.3"  | none |
 | StatsBase" | v"0.26.0" | none |
 | StringEncodings |v"0.3.1"  | none |

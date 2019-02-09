@@ -2,7 +2,7 @@ julia> ]
 (v1.0) pkg> add DataFrames
 (v1.0) pkg> add Plots
 (v1.0) pkg> add Distributions
-(v1.0) pkg> add StatPlots
+(v1.0) pkg> add StatsPlots
 (v1.0) pkg> add CSV
 
 
@@ -12,7 +12,7 @@ using Plots
 using Distributions
 using StatPlots
 
-Random.seed!(0); 
+Random.seed!(0);
 df = DataFrame(x1=randn(1000),x2=randn(1000));
 ρ = 0.8
 df.x3 = ρ*df.x1 + √(1-ρ*ρ)*df.x2;
@@ -48,6 +48,6 @@ for i in 1:4, j in 1:4
             guidefont=font_h6,tickfont=font_h6,legendfont=font_h6,
             background_color_legend=RGBA(255,255,255,0.8),
             foreground_color_legend=nothing))
-    end    
+    end
 end
 p = plot(plts...,layout=Plots.GridLayout(4, 4))
