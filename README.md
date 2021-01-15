@@ -1,8 +1,3 @@
-## $5 Tech Unlocked 2021!
-[Buy and download this Book for only $5 on PacktPub.com](https://www.packtpub.com/product/julia-1-0-programming-cookbook/9781788998369)
------
-*If you have read this book, please leave a review on [Amazon.com](https://www.amazon.com/gp/product/1788998367).     Potential readers can then use your unbiased opinion to help them make purchase decisions. Thank you. The $5 campaign         runs from __December 15th 2020__ to __January 13th 2021.__*
-
 # Julia 1.0 Programming Cookbook
 
 <a href="https://www.packtpub.com/application-development/julia-10-programming-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781788998369 "><img src="https://www.packtpub.com/sites/default/files/B10009.png" alt="Julia 1.0 Programming Cookbook" height="256px" align="right"></a>
